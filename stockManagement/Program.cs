@@ -1,10 +1,10 @@
 ﻿using stockManagement;
 
-Item TestItem1 = new("cool laptop", "laptop", 34, 899.99);                            // items for testing purposes
-Item TestItem2 = new("cool graphics card", "graphics card", 12, 699.99);
-Item TestItem3 = new("less cool laptop", "laptop", 8, 399.99);
-Item TestItem4 = new("less cool graphics card", "graphics card", 3, 299.99);
-List<Item> ItemList = new List<Item>();                                               // creates list of objects and put the test objects inside
+Item TestItem1 = new("cool laptop", "laptop", 34, 899.99, 14, 32, 1000);                           // items for testing purposes
+Item TestItem2 = new("cool graphics card", "graphics card", 12, 699.99, 16, 8);
+Item TestItem3 = new("less cool laptop", "laptop", 8, 399.99, 12, 16, 800);
+Item TestItem4 = new("less cool graphics card", "graphics card", 3, 299.99, 8, 4);
+List<Item> ItemList = new List<Item>();                                                            // creates list of objects and put the test objects inside
 ItemList.AddRange(new List<Item>() { TestItem1, TestItem2, TestItem3, TestItem4 });
 
 bool loop = true;
@@ -47,13 +47,36 @@ while (loop == true)
             string itemName = getDetail.AddName();
 
             Console.WriteLine("\nHow much stock is being added?");
-            int itemStock = getDetail.AddStock();
+            int itemStock = getDetail.AddInt();
 
             Console.WriteLine("\nWhat is the price of the item?");
-            double itemPrice = getDetail.AddPrice();
+            double itemPrice = getDetail.AddDouble();
 
-            Item NewItem = new(itemName, itemType, itemStock, itemPrice);                    // creates new object with user defined parameters
-            ItemList.Add(NewItem);                                                           // adds object to list of objects
+            if (itemType == "laptop")
+            {
+                Console.WriteLine("\nWhat is the screen size? (in inches)");
+                double itemScreenSize = getDetail.AddDouble();
+
+                Console.WriteLine("\nWhat is the amount of RAM? (in GB)");
+                int itemRAMamount = getDetail.AddInt();
+
+                Console.WriteLine("\nHow much storage does it have? (in GB)");
+                int itemStorageAmount = getDetail.AddInt();
+
+                Item NewItem = new(itemName, itemType, itemStock, itemPrice, itemScreenSize, itemRAMamount, itemStorageAmount);   // creates new object with user defined parameters
+                ItemList.Add(NewItem);
+            }
+            if (itemType == "graphics card")
+            {
+                Console.WriteLine("\nHow much VRAM does it have? (in GB)");
+                int itemVRAMamount = getDetail.AddInt();
+
+                Console.WriteLine("\nHow many cuda cores does it have?");
+                int itemCudaCores = getDetail.AddInt();
+
+                Item NewItem = new(itemName, itemType, itemStock, itemPrice, itemVRAMamount, itemCudaCores);                      // creates new object with user defined parameters
+                ItemList.Add(NewItem);
+            }
             break;
 
         case 2:
