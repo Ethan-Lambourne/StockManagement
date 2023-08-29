@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace stockManagement
+﻿namespace stockManagement
 {
     public class GetDetail
     {
@@ -9,11 +7,11 @@ namespace stockManagement
         public double totalLaptopValue;
         public double totalGraphicsCardValue;
 
-        public string AddType()                                             // choose which type of hardware
+        public string AddType()
         {
-            while (true)
+            int typeChoice;
+            if (int.TryParse(Console.ReadLine(), out typeChoice))
             {
-                int typeChoice = Convert.ToInt32(Console.ReadLine());
                 switch (typeChoice)
                 {
                     case 1:
@@ -23,32 +21,32 @@ namespace stockManagement
                         return "graphics card";
 
                     default:
-                        Console.WriteLine("Please enter a valid input (1 or 2)");
-                        break;
+                        Console.WriteLine("Please enter a valid input (1 or 2).");
+                        return AddType();
                 }
+            }
+            else
+            {
+                Console.WriteLine("Please enter a valid integer.");
+                return AddType();
             }
         }
 
-        public string AddName()                                             // creates a name for a new object
+        public string AddName()
         {
-            bool loop = true;
-            string name = "";
-            while (loop == true)
+            string? name = string.Empty;
+            while (string.IsNullOrEmpty(name))
             {
-                name = Console.ReadLine(); // I couldn't figure out how to get rid of the warning on this line and line 48, but the code works correctly
-                if (name == "")
+                name = Console.ReadLine();
+                if (string.IsNullOrEmpty(name))
                 {
-                    Console.WriteLine("Name cannot be null, try again");
-                }
-                else
-                {
-                    loop = false;
+                    Console.WriteLine("Name cannot be null, try again.");
                 }
             }
             return name;
         }
 
-        public int AddInt()                                              // inputs an integer for a new object
+        public int AddInt()
         {
             bool loop = true;
             int x = 0;
@@ -61,13 +59,13 @@ namespace stockManagement
                 }
                 else
                 {
-                    Console.WriteLine("Please enter a valid integer");
+                    Console.WriteLine("Please enter a valid integer.");
                 }
             }
             return x;
         }
 
-        public double AddDouble()                                           // inputs a double for a new object
+        public double AddDouble()
         {
             bool loop = true;
             double x = 0.00;
@@ -80,13 +78,39 @@ namespace stockManagement
                 }
                 else
                 {
-                    Console.WriteLine("Please enter a valid double integer");
+                    Console.WriteLine("Please enter a valid double integer.");
                 }
             }
             return x;
         }
 
-        public void ResetStocksAndValues()                                // sets stocks and values back to 0
+        public bool ProceedOrNot(List<Items> ItemList)
+        {
+            int choice;
+            if (int.TryParse(Console.ReadLine(), out choice))
+            {
+                switch (choice)
+                {
+                    case 1:
+                        CreateNewItem(ItemList);
+                        return true;
+
+                    case 2:
+                        return false;
+
+                    default:
+                        Console.WriteLine("Please enter a valid input (1 or 2).");
+                        return ProceedOrNot(ItemList);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Please enter a valid integer.");
+                return ProceedOrNot(ItemList);
+            }
+        }
+
+        public void ResetStocksAndValues()
         {
             laptopStock = 0;
             graphicsCardStock = 0;
@@ -94,66 +118,57 @@ namespace stockManagement
             totalGraphicsCardValue = 0;
         }
 
-        public void DisplayReportSummary()                               // displays final report summary of stocks and values
+        public void DisplayReportSummary()
         {
-            Console.WriteLine("\nLaptop stock: " + laptopStock);
-            Console.WriteLine("Graphics card stock: " + graphicsCardStock);
-            Console.WriteLine("Total stock: " + (laptopStock + graphicsCardStock));
-            Console.WriteLine("\nTotal laptop value: " + totalLaptopValue);
-            Console.WriteLine("Total graphics card value: " + totalGraphicsCardValue);
-            Console.WriteLine("Total value of all items: " + (totalLaptopValue + totalGraphicsCardValue));
-        }
-    }
-
-    public class Item
-    {
-        public string name;                                               // setting the 'blueprint' for a new objects / Items
-        public string type;
-        public int stock;
-        public double price;
-        public double screenSize;
-        public int RAM;
-        public int storage;
-        public int VRAM;
-        public int cudaCores;
-
-        public Item(string itemName, string itemType, int itemStock, double itemPrice, double itemScreenSize, int itemRAMamount, int itemStorageAmount)
-        {
-            name = itemName;
-            type = itemType;
-            stock = itemStock;
-            price = itemPrice;
-            screenSize = itemScreenSize;
-            RAM = itemRAMamount;
-            storage = itemStorageAmount;
+            Console.WriteLine($"\nLaptop stock: \t\t\t{laptopStock}" +
+                $"\nGraphics card stock: \t\t{graphicsCardStock}" +
+                $"\nTotal stock: \t\t\t{laptopStock + graphicsCardStock}" +
+                $"\n\nTotal laptop value: \t\t£{totalLaptopValue}" +
+                $"\nTotal graphics card value: \t£{totalGraphicsCardValue}" +
+                $"\nTotal value of all items: \t£{totalLaptopValue + totalGraphicsCardValue}");
         }
 
-        public Item(string itemName, string itemType, int itemStock, double itemPrice, int itemVRAMamount, int itemCudaCores)
+        public virtual void CreateNewItem(List<Items> ItemList)
         {
-            name = itemName;
-            type = itemType;
-            stock = itemStock;
-            price = itemPrice;
-            VRAM = itemVRAMamount;
-            cudaCores = itemCudaCores;
-        }
+            var getDetail = new GetDetail();
+            Console.WriteLine("\nWhich item type would you like to add?" +
+                   "\n1. Laptop." +
+                   "\n2. Graphics Card.");
+            string itemType = getDetail.AddType();
 
-        public void DisplayItemDetails()                                  // displays the details of an individual item
-        {
-            Console.WriteLine("\nItem name: " + name);
-            Console.WriteLine("Item type: " + type);
-            Console.WriteLine("Item stock: " + stock);
-            Console.WriteLine("Item price: £" + price);
-            if (type == "laptop")
+            Console.WriteLine("\nWhat is the item called?");
+            string itemName = getDetail.AddName();
+
+            Console.WriteLine("\nHow much stock is being added?");
+            int itemStock = getDetail.AddInt();
+
+            Console.WriteLine("\nWhat is the price of the item?");
+            double itemPrice = getDetail.AddDouble();
+
+            if (itemType == "laptop")
             {
-                Console.WriteLine("Item screen size (inches): " + screenSize);
-                Console.WriteLine("Item RAM (in GB): " + RAM);
-                Console.WriteLine("Item storage (in GB): " + storage);
+                Console.WriteLine("\nWhat is the screen size? (in inches)");
+                double itemScreenSize = getDetail.AddDouble();
+
+                Console.WriteLine("\nWhat is the amount of RAM? (in GB)");
+                int itemRAMamount = getDetail.AddInt();
+
+                Console.WriteLine("\nHow much storage does it have? (in GB)");
+                int itemStorageAmount = getDetail.AddInt();
+
+                Items NewItem = new Laptop(itemName, itemType, itemStock, itemPrice, itemScreenSize, itemRAMamount, itemStorageAmount);
+                ItemList.Add(NewItem);
             }
-            if (type == "graphics card")
+            if (itemType == "graphics card")
             {
-                Console.WriteLine("Item VRAM (in GB): " + VRAM);
-                Console.WriteLine("Item cuda cores: " + cudaCores);
+                Console.WriteLine("\nHow much VRAM does it have? (in GB)");
+                int itemVRAMamount = getDetail.AddInt();
+
+                Console.WriteLine("\nHow many cuda cores does it have?");
+                int itemCudaCores = getDetail.AddInt();
+
+                Items NewItem = new GraphicsCard(itemName, itemType, itemStock, itemPrice, itemVRAMamount, itemCudaCores);
+                ItemList.Add(NewItem);
             }
         }
     }
