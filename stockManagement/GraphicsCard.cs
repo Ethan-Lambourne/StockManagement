@@ -1,38 +1,28 @@
-﻿using System.Runtime.Intrinsics.Arm;
+﻿using System.Diagnostics;
+using System.Runtime.Intrinsics.Arm;
 
 namespace stockManagement
 {
     internal class GraphicsCard : Items
     {
-        private int vram;
-        private int cudaCores;
-
         public GraphicsCard(string itemName, string itemType, int itemStock, double itemPrice, int itemVRAMamount, int itemCudaCores) : base(itemName, itemType, itemStock, itemPrice)
         {
-            vram = itemVRAMamount;
-            cudaCores = itemCudaCores;
+            VRAM = itemVRAMamount;
+            CudaCores = itemCudaCores;
         }
 
-        public int VRAM
-        {
-            get { return vram; }
-            set { vram = value; }
-        }
+        public int VRAM { get; set; }
 
-        public int CudaCores
-        {
-            get { return cudaCores; }
-            set { cudaCores = value; }
-        }
+        public int CudaCores { get; set; }
 
-        public override void DisplayItemDetails()
+        public override string ToString()
         {
-            Console.WriteLine($"\nItem name: \t\t\t{name}" +
-                $"\nItem type: \t\t\t{type}" +
-                $"\nItem stock: \t\t\t{stock}" +
-                $"\nItem price: \t\t\t£{price}" +
-                $"\nItem VRAM (in GB): \t\t{vram}" +
-                $"\nItem cuda cores: \t\t{cudaCores}");
+            return $"\nItem name: \t\t\t{Name}" +
+                $"\nItem type: \t\t\t{Type}" +
+                $"\nItem stock: \t\t\t{Stock}" +
+                $"\nItem price: \t\t\t£{Price}" +
+                $"\nItem VRAM (in GB): \t\t{VRAM}" +
+                $"\nItem cuda cores: \t\t{CudaCores}";
         }
 
         public override void EditItemDetails(List<Items> ItemList)
@@ -43,43 +33,43 @@ namespace stockManagement
             double newPrice = 0;
             int newVRAMamount = 0;
             int newCudaCores = 0;
-            var getDetail = new GetDetail();
+            var addDetail = new AddDetail();
             var loop = true;
             while (loop == true)
             {
-                Console.WriteLine($"\nWhat would you like to edit about \"{name}\"?" +
+                Console.WriteLine($"\nWhat would you like to edit about \"{Name}\"?" +
                 "\n1. Name. " +
                 "\n2. Stock. " +
                 "\n3. Price. " +
                 "\n4. VRAM. " +
                 "\n5. Cuda cores. " +
                 "\n9. Finish editing.");
-                int choice = getDetail.AddInt();
+                int choice = addDetail.AddInt();
                 switch (choice)
                 {
                     case 1:
                         Console.WriteLine("\nEnter new name:");
-                        newName = getDetail.AddName();
+                        newName = addDetail.AddName();
                         break;
 
                     case 2:
                         Console.WriteLine("\nEnter new stock amount:");
-                        newStock = getDetail.AddInt();
+                        newStock = addDetail.AddInt();
                         break;
 
                     case 3:
                         Console.WriteLine("\nEnter new price:");
-                        newPrice = getDetail.AddDouble();
+                        newPrice = addDetail.AddDouble();
                         break;
 
                     case 4:
                         Console.WriteLine("\nEnter new VRAM amount:");
-                        newVRAMamount = getDetail.AddInt();
+                        newVRAMamount = addDetail.AddInt();
                         break;
 
                     case 5:
                         Console.WriteLine("\nEnter new cuda core amount:");
-                        newCudaCores = getDetail.AddInt();
+                        newCudaCores = addDetail.AddInt();
                         break;
 
                     case 9:
@@ -91,12 +81,12 @@ namespace stockManagement
                         break;
                 }
             }
-            if (newName == "") { newName = name; }
-            if (newType == "") { newType = type; }
-            if (newStock == 0) { newStock = stock; }
-            if (newPrice == 0) { newPrice = price; }
-            if (newVRAMamount == 0) { newVRAMamount = vram; }
-            if (newCudaCores == 0) { newCudaCores = cudaCores; }
+            if (newName == "") { newName = Name; }
+            if (newType == "") { newType = Type; }
+            if (newStock == 0) { newStock = Stock; }
+            if (newPrice == 0) { newPrice = Price; }
+            if (newVRAMamount == 0) { newVRAMamount = VRAM; }
+            if (newCudaCores == 0) { newCudaCores = CudaCores; }
             Items NewItem = new GraphicsCard(newName, newType, newStock, newPrice, newVRAMamount, newCudaCores);
             ItemList.Add(NewItem);
         }

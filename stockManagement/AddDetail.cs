@@ -1,6 +1,6 @@
 ﻿namespace stockManagement
 {
-    public class GetDetail
+    public class AddDetail
     {
         public string AddType()
         {
@@ -43,38 +43,20 @@
 
         public int AddInt()
         {
-            var loop = true;
-            int x = 0;
-            while (loop)
+            int x;
+            while (!int.TryParse(Console.ReadLine(), out x))
             {
-                if (int.TryParse(Console.ReadLine(), out x))
-                {
-                    Convert.ToInt32(x);
-                    loop = false;
-                }
-                else
-                {
-                    Console.WriteLine("Please enter a valid integer.");
-                }
+                Console.WriteLine("Please enter a valid integer.");
             }
             return x;
         }
 
         public double AddDouble()
         {
-            var loop = true;
-            double x = 0.00;
-            while (loop)
+            double x;
+            while (!double.TryParse(Console.ReadLine(), out x))
             {
-                if (double.TryParse(Console.ReadLine(), out x))
-                {
-                    Convert.ToDouble(x);
-                    loop = false;
-                }
-                else
-                {
-                    Console.WriteLine("Please enter a valid double integer.");
-                }
+                Console.WriteLine("Please enter a valid double integer.");
             }
             return x;
         }
