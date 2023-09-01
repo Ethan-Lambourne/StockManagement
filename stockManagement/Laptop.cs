@@ -1,27 +1,31 @@
-﻿namespace stockManagement
+﻿using System.Runtime.Intrinsics.Arm;
+
+namespace stockManagement
 {
     internal class Laptop : Items
     {
-        private double screenSize;
-        private int RAM;
-        private int storage;
-
         public Laptop(string itemName, string itemType, int itemStock, double itemPrice, double itemScreenSize, int itemRAMamount, int itemStorageAmount) : base(itemName, itemType, itemStock, itemPrice)
         {
-            screenSize = itemScreenSize;
+            ScreenSize = itemScreenSize;
             RAM = itemRAMamount;
-            storage = itemStorageAmount;
+            Storage = itemStorageAmount;
         }
 
-        public override void DisplayItemDetails()
+        public double ScreenSize { get; set; }
+
+        public int RAM { get; set; }
+
+        public int Storage { get; set; }
+
+        public override string ToString()
         {
-            Console.WriteLine($"\nItem name: \t\t\t{name}" +
-                $"\nItem type: \t\t\t{type}" +
-                $"\nItem stock: \t\t\t{stock}" +
-                $"\nItem price: \t\t\t£{price}" +
-                $"\nItem screen size (inches): \t{screenSize}" +
+            return $"\nItem name: \t\t\t{Name}" +
+                $"\nItem type: \t\t\t{Type}" +
+                $"\nItem stock: \t\t\t{Stock}" +
+                $"\nItem price: \t\t\t£{Price}" +
+                $"\nItem screen size (inches): \t{ScreenSize}" +
                 $"\nItem RAM (in GB): \t\t{RAM}" +
-                $"\nItem storage (in GB): \t\t{storage}");
+                $"\nItem storage (in GB): \t\t{Storage}";
         }
 
         public override void EditItemDetails(List<Items> ItemList)
@@ -33,63 +37,49 @@
             double newScreenSize = 0;
             int newRAMamount = 0;
             int newStorageAmount = 0;
-            bool check = false;
-            var getDetail = new GetDetail();
+            var addDetail = new AddDetail();
             var loop = true;
             while (loop == true)
             {
-                Console.WriteLine($"\nWhat would you like to edit about \"{name}\"?" +
+                Console.WriteLine($"\nWhat would you like to edit about \"{Name}\"?" +
                 "\n1. Name. " +
-                "\n2. Type. " +
-                "\n3. Stock. " +
-                "\n4. Price. " +
-                "\n5. Screen size. " +
-                "\n6. RAM. " +
-                "\n7. Storage." +
+                "\n2. Stock. " +
+                "\n3. Price. " +
+                "\n4. Screen size. " +
+                "\n5. RAM. " +
+                "\n6. Storage." +
                 "\n9. Finish editing.");
-                int choice = getDetail.AddInt();
+                int choice = addDetail.AddInt();
                 switch (choice)
                 {
                     case 1:
                         Console.WriteLine("\nEnter new name:");
-                        newName = getDetail.AddName();
+                        newName = addDetail.AddName();
                         break;
 
                     case 2:
-                        Console.WriteLine("\nWARNING: EDITING THE TYPE CHANGES THE SPECIFICATION CATEGORIES OF THIS ITEM," +
-                            "\nYOU WILL NEED TO EDIT ALL CATEGORIES WITHIN THIS ITEM." +
-                            "\n1. Continue." +
-                            "\n2. Go back.");
-                        check = getDetail.ProceedOrNot(ItemList);
-                        if (check == true)
-                        {
-                            loop = false;
-                        }
+                        Console.WriteLine("\nEnter new stock amount:");
+                        newStock = addDetail.AddInt();
                         break;
 
                     case 3:
-                        Console.WriteLine("\nEnter new stock amount:");
-                        newStock = getDetail.AddInt();
+                        Console.WriteLine("\nEnter new price:");
+                        newPrice = addDetail.AddDouble();
                         break;
 
                     case 4:
-                        Console.WriteLine("\nEnter new price:");
-                        newPrice = getDetail.AddDouble();
+                        Console.WriteLine("\nEnter new screen size:");
+                        newScreenSize = addDetail.AddDouble();
                         break;
 
                     case 5:
-                        Console.WriteLine("\nEnter new screen size:");
-                        newScreenSize = getDetail.AddDouble();
+                        Console.WriteLine("\nEnter new RAM amount:");
+                        newRAMamount = addDetail.AddInt();
                         break;
 
                     case 6:
-                        Console.WriteLine("\nEnter new RAM amount:");
-                        newRAMamount = getDetail.AddInt();
-                        break;
-
-                    case 7:
                         Console.WriteLine("\nEnter new storage amount:");
-                        newStorageAmount = getDetail.AddInt();
+                        newStorageAmount = addDetail.AddInt();
                         break;
 
                     case 9:
@@ -101,18 +91,15 @@
                         break;
                 }
             }
-            if (check == false)
-            {
-                if (newName == "") { newName = name; }
-                if (newType == "") { newType = type; }
-                if (newStock == 0) { newStock = stock; }
-                if (newPrice == 0) { newPrice = price; }
-                if (newScreenSize == 0) { newScreenSize = screenSize; }
-                if (newRAMamount == 0) { newRAMamount = RAM; }
-                if (newStorageAmount == 0) { newStorageAmount = storage; }
-                Items NewItem = new Laptop(newName, newType, newStock, newPrice, newScreenSize, newRAMamount, newStorageAmount);
-                ItemList.Add(NewItem);
-            }
+            if (newName == "") { newName = Name; }
+            if (newType == "") { newType = Type; }
+            if (newStock == 0) { newStock = Stock; }
+            if (newPrice == 0) { newPrice = Price; }
+            if (newScreenSize == 0) { newScreenSize = ScreenSize; }
+            if (newRAMamount == 0) { newRAMamount = RAM; }
+            if (newStorageAmount == 0) { newStorageAmount = Storage; }
+            Items NewItem = new Laptop(newName, newType, newStock, newPrice, newScreenSize, newRAMamount, newStorageAmount);
+            ItemList.Add(NewItem);
         }
     }
 }
