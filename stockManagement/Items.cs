@@ -10,12 +10,12 @@
             Price = itemPrice;
         }
 
-        public string Name { get; set; }
+        public string Name { get; protected set; }
 
         public string Type { get; }
 
-        public int Stock { get; set; }
+        public int Stock { get; protected set; }
 
-        public double Price { get; set; }
+        public double Price { get; protected set; }
     }
 }
