@@ -1,6 +1,6 @@
 ﻿namespace stockManagement
 {
-    internal abstract class Items
+    public abstract class Items
     {
         public Items(string itemName, string itemType, int itemStock, double itemPrice)
         {
@@ -10,14 +10,12 @@
             Price = itemPrice;
         }
 
-        public string Name { get; protected set; }
+        public string Name { get; set; }
 
         public string Type { get; }
 
-        public int Stock { get; protected set; }
+        public int Stock { get; set; }
 
-        public double Price { get; protected set; }
-
-        public abstract void EditItemDetails(List<Items> ItemList);
+        public double Price { get; set; }
     }
 }
