@@ -7,12 +7,43 @@
         public double totalLaptopValue;
         public double totalGraphicsCardValue;
 
-        public void ResetStocksAndValues()
+        public readonly LaptopRepository _laptopRepository;
+        public readonly GraphicsCardRepository _graphicsCardRepository;
+
+        public DisplayDetails(LaptopRepository laptopRepository, GraphicsCardRepository graphicsCardRepository)
+        {
+            _laptopRepository = laptopRepository;
+            _graphicsCardRepository = graphicsCardRepository;
+        }
+
+        public void CalculateStocksAndValues()
         {
             laptopStock = 0;
             graphicsCardStock = 0;
             totalLaptopValue = 0;
             totalGraphicsCardValue = 0;
+            foreach (Laptop item in _laptopRepository.LaptopList)
+            {
+                laptopStock += item.Stock;
+                totalLaptopValue += item.Price;
+            }
+            foreach (GraphicsCard item in _graphicsCardRepository.GraphicsCardList)
+            {
+                graphicsCardStock += item.Stock;
+                totalGraphicsCardValue += item.Price;
+            }
+        }
+
+        public void DisplayAllItemsInStock()
+        {
+            foreach (Laptop item in _laptopRepository.LaptopList)
+            {
+                Console.WriteLine(item.ToString());
+            }
+            foreach (GraphicsCard item in _graphicsCardRepository.GraphicsCardList)
+            {
+                Console.WriteLine(item.ToString());
+            }
         }
 
         public void DisplayReportSummary()

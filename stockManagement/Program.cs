@@ -1,26 +1,22 @@
 ﻿using stockManagement;
 
-var ItemList = new List<Items>()
-{
-    new Laptop("cool laptop", "laptop", 34, 899.99, 14, 32, 1000),
-    new GraphicsCard("cool graphics card", "graphics card", 12, 699.99, 16, 8),
-    new Laptop("less cool laptop", "laptop", 8, 399.99, 12, 16, 800),
-    new GraphicsCard("less cool graphics card", "graphics card", 3, 299.99, 8, 4)
-};
-
 var addDetail = new AddDetail();
-var displayDetail = new DisplayDetails();
+var laptop = new LaptopRepository();
+var graphicsCard = new GraphicsCardRepository();
+var displayDetail = new DisplayDetails(laptop, graphicsCard);
 
 var loop = true;
 while (loop == true)
 {
-    Console.WriteLine("\nWhat would you like to do?" +
-    "\n1. Add a new item to stock." +
-    "\n2. Remove an item from stock." +
-    "\n3. Edit an item in stock." +
-    "\n4. Track the stock level of a sepecific item type." +
-    "\n5. Generate a total value report." +
-    "\n9. End program.");
+    Console.WriteLine("\n====================================================" +
+        "\nWhat would you like to do?" +
+        "\n1. Add a new item to stock." +
+        "\n2. Remove an item from stock." +
+        "\n3. Edit an item in stock." +
+        "\n4. Track the stock level of a sepecific item type." +
+        "\n5. Generate a total value report." +
+        "\n9. End program." +
+        "\n====================================================");
 
     int choice = addDetail.AddInt();
 
@@ -84,8 +80,8 @@ void CreateNewItem()
         Console.WriteLine("\nHow much storage does it have? (in GB)");
         int itemStorageAmount = addDetail.AddInt();
 
-        Items NewItem = new Laptop(itemName, itemType, itemStock, itemPrice, itemScreenSize, itemRAMamount, itemStorageAmount);
-        ItemList.Add(NewItem);
+        Laptop NewItem = new Laptop(itemName, itemType, itemStock, itemPrice, itemScreenSize, itemRAMamount, itemStorageAmount);
+        laptop.AddItem(NewItem);
     }
     if (itemType == "graphics card")
     {
@@ -95,71 +91,51 @@ void CreateNewItem()
         Console.WriteLine("\nHow many cuda cores does it have?");
         int itemCudaCores = addDetail.AddInt();
 
-        Items NewItem = new GraphicsCard(itemName, itemType, itemStock, itemPrice, itemVRAMamount, itemCudaCores);
-        ItemList.Add(NewItem);
+        GraphicsCard NewItem = new GraphicsCard(itemName, itemType, itemStock, itemPrice, itemVRAMamount, itemCudaCores);
+        graphicsCard.AddItem(NewItem);
     }
 }
 
 void TryToRemoveItem()
 {
+    Console.WriteLine("\nWhat is the type of the item you wish to remove?" +
+           "\n1. Laptop." +
+           "\n2. Graphics Card.");
+    string itemType = addDetail.AddType();
     Console.WriteLine("\nEnter the name of the item you would like to remove.");
     string itemToRemove = addDetail.AddName();
-    bool check = false;
-    foreach (Items item in ItemList)
+    if (itemType == "laptop")
     {
-        if (itemToRemove == item.Name)
-        {
-            ItemList.Remove(item);
-            Console.WriteLine("\nItem removed.");
-            check = true;
-            break;
-        }
+        laptop.DeleteItem(itemToRemove);
     }
-    if (check == false)
+    if (itemType == "graphics card")
     {
-        Console.WriteLine("\nNo items in stock match that name.");
+        graphicsCard.DeleteItem(itemToRemove);
     }
 }
 
 void TryToEditItem()
 {
+    Console.WriteLine("\nWhat is the type of the item you wish to edit?" +
+           "\n1. Laptop." +
+           "\n2. Graphics Card.");
+    string itemType = addDetail.AddType();
     Console.WriteLine("\nEnter the name of the item you would like to edit.");
     string itemToEdit = addDetail.AddName();
-    bool check = false;
-    foreach (Items item in ItemList)
+    if (itemType == "laptop")
     {
-        if (itemToEdit == item.Name)
-        {
-            Console.WriteLine(item.ToString());
-            item.EditItemDetails(ItemList);
-            ItemList.Remove(item);
-            check = true;
-            Console.WriteLine("\nItem details changed.");
-            break;
-        }
+        laptop.EditItem(itemToEdit);
     }
-    if (check == false)
+    if (itemType == "graphics card")
     {
-        Console.WriteLine("\nNo items in stock match that name.");
+        graphicsCard.EditItem(itemToEdit);
     }
 }
 
 void TrackStockByType()
 {
-    displayDetail.ResetStocksAndValues();
-    foreach (Items item in ItemList)
-    {
-        if (item.Type == "laptop")
-        {
-            displayDetail.laptopStock = displayDetail.laptopStock + item.Stock;
-            displayDetail.totalLaptopValue = displayDetail.totalLaptopValue + item.Price;
-        }
-        if (item.Type == "graphics card")
-        {
-            displayDetail.graphicsCardStock = displayDetail.graphicsCardStock + item.Stock;
-            displayDetail.totalGraphicsCardValue = displayDetail.totalGraphicsCardValue + item.Price;
-        }
-    }
+    displayDetail.CalculateStocksAndValues();
+
     Console.WriteLine("\nWhich type of item stock do you want to check?" +
             "\n1. Laptops." +
             "\n2. Graphics Cards.");
@@ -176,23 +152,7 @@ void TrackStockByType()
 
 void GenerateTotalStockAndValueReport()
 {
-    foreach (Items item in ItemList)
-    {
-        Console.WriteLine(item.ToString());
-    }
-    displayDetail.ResetStocksAndValues();
-    foreach (Items item in ItemList)
-    {
-        if (item.Type == "laptop")
-        {
-            displayDetail.laptopStock = displayDetail.laptopStock + item.Stock;
-            displayDetail.totalLaptopValue = displayDetail.totalLaptopValue + item.Price;
-        }
-        if (item.Type == "graphics card")
-        {
-            displayDetail.graphicsCardStock = displayDetail.graphicsCardStock + item.Stock;
-            displayDetail.totalGraphicsCardValue = displayDetail.totalGraphicsCardValue + item.Price;
-        }
-    }
+    displayDetail.DisplayAllItemsInStock();
+    displayDetail.CalculateStocksAndValues();
     displayDetail.DisplayReportSummary();
 }
