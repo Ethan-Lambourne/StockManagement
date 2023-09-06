@@ -1,12 +1,12 @@
 ﻿using System.Diagnostics;
 using System.Runtime.Intrinsics.Arm;
 
-namespace stockManagement
+namespace stockManagement.Models
 {
     public class GraphicsCard : Items
     {
-        public GraphicsCard(string itemName, string itemType, int itemStock, double itemPrice, int itemVRAMamount, int itemCudaCores)
-            : base(itemName, itemType, itemStock, itemPrice)
+        public GraphicsCard(int itemID, string itemName, string itemType, int itemStock, double itemPrice, int itemVRAMamount, int itemCudaCores)
+            : base(itemID, itemName, itemType, itemStock, itemPrice)
         {
             VRAM = itemVRAMamount;
             CudaCores = itemCudaCores;
@@ -18,7 +18,8 @@ namespace stockManagement
 
         public override string ToString()
         {
-            return $"\nItem name: \t\t\t{Name}" +
+            return $"\nItem ID: \t\t\t{ID}" +
+                $"\nItem name: \t\t\t{Name}" +
                 $"\nItem type: \t\t\t{Type}" +
                 $"\nItem stock: \t\t\t{Stock}" +
                 $"\nItem price: \t\t\t£{Price}" +

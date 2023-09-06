@@ -1,7 +1,19 @@
-﻿namespace stockManagement
+﻿using stockManagement.Models;
+using stockManagement.Repos;
+
+namespace stockManagement.Details
 {
     public class AddDetail
     {
+        public readonly LaptopRepository _laptopRepository;
+        public readonly GraphicsCardRepository _graphicsCardRepository;
+
+        public AddDetail(LaptopRepository laptopRepository, GraphicsCardRepository graphicsCardRepository)
+        {
+            _laptopRepository = laptopRepository;
+            _graphicsCardRepository = graphicsCardRepository;
+        }
+
         public string AddType()
         {
             int typeChoice;
@@ -59,6 +71,27 @@
                 Console.WriteLine("Please enter a valid double integer.");
             }
             return x;
+        }
+
+        public int GenerateID()
+        {
+            List<int> ExistingIDs = new();
+            foreach (Laptop laptop in _laptopRepository.LaptopList)
+            {
+                ExistingIDs.Add(laptop.ID);
+            }
+            foreach (GraphicsCard graphicsCard in _graphicsCardRepository.GraphicsCardList)
+            {
+                ExistingIDs.Add(graphicsCard.ID);
+            }
+            int ID = 1;
+            bool isInList = ExistingIDs.IndexOf(ID) != -1;
+            while (isInList == true)
+            {
+                ID++;
+                isInList = ExistingIDs.IndexOf(ID) != -1;
+            }
+            return ID;
         }
     }
 }
