@@ -4,7 +4,7 @@ namespace stockManagement.Repos
 {
     public class LaptopRepository : IItemsRepository<Laptop>
     {
-        public List<Laptop> LaptopList = new()
+        private List<Laptop> LaptopList = new()
         {
             new Laptop(1, "cool laptop", "laptop", 34, 899.99, 14, 32, 1000),
             new Laptop(2, "less cool laptop", "laptop", 8, 399.99, 12, 16, 800),
@@ -53,6 +53,11 @@ namespace stockManagement.Repos
             {
                 return null;
             }
+        }
+
+        public List<Laptop> GetAllItems()
+        {
+            return LaptopList;
         }
     }
 }

@@ -4,6 +4,8 @@
     {
         T? GetItem(int itemID);
 
+        List<T> GetAllItems();
+
         T AddItem(T item);
 
         bool DeleteItem(int itemID);

@@ -76,11 +76,11 @@ namespace stockManagement.Details
         public int GenerateID()
         {
             List<int> ExistingIDs = new();
-            foreach (Laptop laptop in _laptopRepository.LaptopList)
+            foreach (Laptop laptop in _laptopRepository.GetAllItems())
             {
                 ExistingIDs.Add(laptop.ID);
             }
-            foreach (GraphicsCard graphicsCard in _graphicsCardRepository.GraphicsCardList)
+            foreach (GraphicsCard graphicsCard in _graphicsCardRepository.GetAllItems())
             {
                 ExistingIDs.Add(graphicsCard.ID);
             }

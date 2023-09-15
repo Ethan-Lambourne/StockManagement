@@ -4,7 +4,7 @@ namespace stockManagement.Repos
 {
     public class GraphicsCardRepository : IItemsRepository<GraphicsCard>
     {
-        public List<GraphicsCard> GraphicsCardList = new()
+        private List<GraphicsCard> GraphicsCardList = new()
         {
             new GraphicsCard(3, "cool graphics card", "graphics card", 12, 699.99, 16, 8),
             new GraphicsCard(4, "less cool graphics card", "graphics card", 3, 299.99, 8, 4)
@@ -52,6 +52,11 @@ namespace stockManagement.Repos
             {
                 return null;
             }
+        }
+
+        public List<GraphicsCard> GetAllItems()
+        {
+            return GraphicsCardList;
         }
     }
 }

@@ -57,6 +57,7 @@ while (loop)
 
 void CreateNewItem()
 {
+    Console.Clear();
     Console.WriteLine("\nWhich item type would you like to add?" +
            "\n1. Laptop." +
            "\n2. Graphics Card.");
@@ -102,6 +103,7 @@ void CreateNewItem()
 
 void TryToRemoveItem()
 {
+    Console.Clear();
     Console.WriteLine("\nWhat is the type of the item you wish to remove?" +
            "\n1. Laptop." +
            "\n2. Graphics Card.");
@@ -134,6 +136,7 @@ void TryToRemoveItem()
 
 void TryToEditItem()
 {
+    Console.Clear();
     Console.WriteLine("\nWhat is the type of the item you wish to edit?" +
            "\n1. Laptop." +
            "\n2. Graphics Card.");
@@ -276,6 +279,7 @@ void TryToEditItem()
 void TrackStockByType()
 {
     displayDetail.CalculateStocksAndValues();
+    Console.Clear();
     Console.WriteLine("\nWhich type of item stock do you want to check?" +
             "\n1. Laptops." +
             "\n2. Graphics Cards.");
@@ -292,6 +296,7 @@ void TrackStockByType()
 
 void GenerateTotalStockAndValueReport()
 {
+    Console.Clear();
     displayDetail.DisplayAllItemsInStock();
     displayDetail.CalculateStocksAndValues();
     displayDetail.DisplayReportSummary();

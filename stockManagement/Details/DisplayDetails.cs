@@ -25,12 +25,12 @@ namespace stockManagement.Details
             graphicsCardStock = 0;
             totalLaptopValue = 0;
             totalGraphicsCardValue = 0;
-            foreach (Laptop item in _laptopRepository.LaptopList)
+            foreach (Laptop item in _laptopRepository.GetAllItems())
             {
                 laptopStock += item.Stock;
                 totalLaptopValue += item.Price;
             }
-            foreach (GraphicsCard item in _graphicsCardRepository.GraphicsCardList)
+            foreach (GraphicsCard item in _graphicsCardRepository.GetAllItems())
             {
                 graphicsCardStock += item.Stock;
                 totalGraphicsCardValue += item.Price;
@@ -39,11 +39,11 @@ namespace stockManagement.Details
 
         public void DisplayAllItemsInStock()
         {
-            foreach (Laptop item in _laptopRepository.LaptopList)
+            foreach (Laptop item in _laptopRepository.GetAllItems())
             {
                 Console.WriteLine(item.ToString());
             }
-            foreach (GraphicsCard item in _graphicsCardRepository.GraphicsCardList)
+            foreach (GraphicsCard item in _graphicsCardRepository.GetAllItems())
             {
                 Console.WriteLine(item.ToString());
             }
