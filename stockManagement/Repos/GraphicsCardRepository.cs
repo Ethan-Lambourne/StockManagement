@@ -30,28 +30,23 @@ namespace stockManagement.Repos
             }
         }
 
-        public GraphicsCard EditItem(GraphicsCard item, string newName, int newStock, double newPrice, double newScreenSize,
-            int newRAMamount, int newStorageAmount, int newVRAMamount, int newCudaCores)
+        public GraphicsCard? EditItem(GraphicsCard ExampleItem, int itemID)
         {
-            if (newName != "") { item.Name = newName; }
-            if (newStock != 0) { item.Stock = newStock; }
-            if (newPrice != 0) { item.Price = newPrice; }
-            if (newVRAMamount != 0) { item.VRAM = newVRAMamount; }
-            if (newCudaCores != 0) { item.CudaCores = newCudaCores; }
+            var item = GetItem(itemID);
+            if (item != null)
+            {
+                if (ExampleItem.Name != "") { item.Name = ExampleItem.Name; }
+                if (ExampleItem.Stock != null) { item.Stock = ExampleItem.Stock; }
+                if (ExampleItem.Price != null) { item.Price = (double)ExampleItem.Price; }
+                if (ExampleItem.VRAM != 0) { item.VRAM = ExampleItem.VRAM; }
+                if (ExampleItem.CudaCores != 0) { item.CudaCores = ExampleItem.CudaCores; }
+            }
             return item;
         }
 
         public GraphicsCard? GetItem(int itemID)
         {
-            var graphicsCard = GraphicsCardList.FirstOrDefault(item => item.ID == itemID);
-            if (graphicsCard != null)
-            {
-                return graphicsCard;
-            }
-            else
-            {
-                return null;
-            }
+            return GraphicsCardList.FirstOrDefault(item => item.ID == itemID);
         }
 
         public List<GraphicsCard> GetAllItems()

@@ -2,7 +2,7 @@
 {
     public abstract class Items
     {
-        public Items(int itemID, string itemName, string itemType, int itemStock, double itemPrice)
+        public Items(int itemID, string itemName, string itemType, int? itemStock, double? itemPrice)
         {
             ID = itemID;
             Name = itemName;
@@ -17,8 +17,8 @@
 
         public string Type { get; }
 
-        public int Stock { get; set; }
+        public int? Stock { get; set; }
 
-        public double Price { get; set; }
+        public double? Price { get; set; }
     }
 }

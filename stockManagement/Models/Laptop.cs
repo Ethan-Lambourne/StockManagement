@@ -2,7 +2,7 @@
 {
     public class Laptop : Items
     {
-        public Laptop(int itemID, string itemName, string itemType, int itemStock, double itemPrice, double itemScreenSize, int itemRAMamount, int itemStorageAmount)
+        public Laptop(int itemID, string itemName, string itemType, int? itemStock, double? itemPrice, double itemScreenSize, int itemRAMamount, int itemStorageAmount)
             : base(itemID, itemName, itemType, itemStock, itemPrice)
         {
             ScreenSize = itemScreenSize;

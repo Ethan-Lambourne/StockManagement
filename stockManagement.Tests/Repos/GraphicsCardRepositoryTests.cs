@@ -1,17 +1,17 @@
-﻿using Moq;
-using stockManagement.Models;
+﻿using stockManagement.Models;
 
 namespace stockManagement.Repos
 {
     public class GraphicsCardRepositoryTests
     {
+        private GraphicsCard item = new GraphicsCard(999, "test graphics card", "graphics card", 11, 22.22, 33, 44);
+
         [Test]
         public void AddLaptopItemToGraphicsCardList()
         {
-            var graphicsCardRepository = new Mock<GraphicsCardRepository>();
-            var item = new GraphicsCard(999, "test graphics card", "graphics card", 11, 22.22, 33, 44);
+            var graphicsCardRepository = new GraphicsCardRepository();
 
-            var check = graphicsCardRepository.Object.AddItem(item);
+            var check = graphicsCardRepository.AddItem(item);
 
             Assert.That(check, Is.EqualTo(item));
         }
@@ -19,11 +19,10 @@ namespace stockManagement.Repos
         [Test]
         public void GetIndividualItemFromGraphicsCardList()
         {
-            var graphicsCardRepository = new Mock<GraphicsCardRepository>();
-            var item = new GraphicsCard(999, "test graphics card", "graphics card", 11, 22.22, 33, 44);
-            graphicsCardRepository.Object.AddItem(item);
+            var graphicsCardRepository = new GraphicsCardRepository();
+            graphicsCardRepository.AddItem(item);
 
-            var check = graphicsCardRepository.Object.GetItem(999);
+            var check = graphicsCardRepository.GetItem(999);
 
             Assert.That(check, Is.EqualTo(item));
         }
@@ -31,42 +30,44 @@ namespace stockManagement.Repos
         [Test]
         public void DeleteItemFromGraphicsCardList()
         {
-            var graphicsCardRepository = new Mock<GraphicsCardRepository>();
-            var item = new GraphicsCard(999, "test graphics card", "graphics card", 11, 22.22, 33, 44);
-            graphicsCardRepository.Object.AddItem(item);
+            var graphicsCardRepository = new GraphicsCardRepository();
+            graphicsCardRepository.AddItem(item);
 
-            bool check = graphicsCardRepository.Object.DeleteItem(999);
+            var check = graphicsCardRepository.DeleteItem(999);
 
             Assert.That(check, Is.EqualTo(true));
         }
 
-        [Test]
-        public void EditItemFromGraphicsCardList()
+        [TestCase("test name", 50, 100, 8, 4)]
+        [TestCase("TEST NAME", 0, 50.5, 10, 6)]
+        [TestCase("Test Name123", 10000, 999.99, 6, 2)]
+        [TestCase("test name!&*^%4", 1, 0, 20, 12)]
+        public void EditItemFromGraphicsCardList(string testName, int testStock, double testPrice, int testVRAM, int testCudaCores)
         {
-            var graphicsCardRepository = new Mock<GraphicsCardRepository>();
-            var item = new GraphicsCard(999, "test graphics card", "graphics card", 11, 22.22, 33, 44);
-            graphicsCardRepository.Object.AddItem(item);
+            var graphicsCardRepository = new GraphicsCardRepository();
+            graphicsCardRepository.AddItem(item);
+            GraphicsCard ExampleItem = new(item.ID, testName, item.Type, testStock, testPrice, testVRAM, testCudaCores);
 
-            var check = graphicsCardRepository.Object.EditItem(item, "edited test graphics card", 123, 45.6, 0, 0, 0, 7, 8);
+            var check = graphicsCardRepository.EditItem(ExampleItem, item.ID);
 
             Assert.Multiple(() =>
             {
-                Assert.That(check.Name, Is.EqualTo("edited test graphics card"));
-                Assert.That(check.Stock, Is.EqualTo(123));
-                Assert.That(check.Price, Is.EqualTo(45.6));
-                Assert.That(check.VRAM, Is.EqualTo(7));
-                Assert.That(check.CudaCores, Is.EqualTo(8));
+                Assert.That(check.Name, Is.EqualTo(testName));
+                Assert.That(check.Stock, Is.EqualTo(testStock));
+                Assert.That(check.Price, Is.EqualTo(testPrice));
+                Assert.That(check.VRAM, Is.EqualTo(testVRAM));
+                Assert.That(check.CudaCores, Is.EqualTo(testCudaCores));
             });
         }
 
         [Test]
         public void GetAllItemsFromGraphicsCardList()
         {
-            var graphicsCardRepository = new Mock<GraphicsCardRepository>();
+            var graphicsCardRepository = new GraphicsCardRepository();
 
-            List<GraphicsCard> check = graphicsCardRepository.Object.GetAllItems();
+            List<GraphicsCard> check = graphicsCardRepository.GetAllItems();
 
-            Assert.That(check, Is.EqualTo(graphicsCardRepository.Object.GetAllItems()));
+            Assert.That(check, Is.EqualTo(graphicsCardRepository.GetAllItems()));
         }
     }
 }

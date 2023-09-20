@@ -5,13 +5,13 @@ namespace stockManagement.Details
 {
     public class DisplayDetails
     {
-        public int laptopStock;
-        public int graphicsCardStock;
-        public double totalLaptopValue;
-        public double totalGraphicsCardValue;
+        public int? laptopStock;
+        public int? graphicsCardStock;
+        public double? totalLaptopValue;
+        public double? totalGraphicsCardValue;
 
-        public readonly LaptopRepository _laptopRepository;
-        public readonly GraphicsCardRepository _graphicsCardRepository;
+        private readonly LaptopRepository _laptopRepository;
+        private readonly GraphicsCardRepository _graphicsCardRepository;
 
         public DisplayDetails(LaptopRepository laptopRepository, GraphicsCardRepository graphicsCardRepository)
         {

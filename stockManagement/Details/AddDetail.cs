@@ -5,8 +5,8 @@ namespace stockManagement.Details
 {
     public class AddDetail
     {
-        public readonly LaptopRepository _laptopRepository;
-        public readonly GraphicsCardRepository _graphicsCardRepository;
+        private readonly LaptopRepository _laptopRepository;
+        private readonly GraphicsCardRepository _graphicsCardRepository;
 
         public AddDetail(LaptopRepository laptopRepository, GraphicsCardRepository graphicsCardRepository)
         {

@@ -144,8 +144,8 @@ void TryToEditItem()
     Console.WriteLine("\nEnter the ID of the item you would like to edit.");
     int itemToEdit = addDetail.AddInt();
     string newName = "";
-    int newStock = 0;
-    double newPrice = 0;
+    int? newStock = null;
+    double? newPrice = null;
     int newVRAMamount = 0;
     int newCudaCores = 0;
     double newScreenSize = 0;
@@ -209,7 +209,8 @@ void TryToEditItem()
                         break;
                 }
             }
-            laptop.EditItem(item, newName, newStock, newPrice, newScreenSize, newRAMamount, newStorageAmount, newVRAMamount, newCudaCores);
+            Laptop ExampleItem = new(item.ID, newName, item.Type, newStock, newPrice, newScreenSize, newRAMamount, newStorageAmount);
+            laptop.EditItem(ExampleItem, item.ID);
         }
         else
         {
@@ -267,7 +268,8 @@ void TryToEditItem()
                         break;
                 }
             }
-            graphicsCard.EditItem(item, newName, newStock, newPrice, newScreenSize, newRAMamount, newStorageAmount, newVRAMamount, newCudaCores);
+            GraphicsCard ExampleItem = new(item.ID, newName, item.Type, newStock, newPrice, newVRAMamount, newCudaCores);
+            graphicsCard.EditItem(ExampleItem, item.ID);
         }
         else
         {

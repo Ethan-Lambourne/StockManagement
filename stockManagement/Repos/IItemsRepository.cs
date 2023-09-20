@@ -10,7 +10,6 @@
 
         bool DeleteItem(int itemID);
 
-        T EditItem(T item, string newName, int newStock, double newPrice, double newScreenSize, int newRAMamount,
-            int newStorageAmount, int newVRAMamount, int newCudaCores);
+        T? EditItem(T item, int itemID);
     }
 }

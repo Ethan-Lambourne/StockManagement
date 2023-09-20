@@ -30,29 +30,24 @@ namespace stockManagement.Repos
             }
         }
 
-        public Laptop EditItem(Laptop item, string newName, int newStock, double newPrice, double newScreenSize,
-            int newRAMamount, int newStorageAmount, int newVRAMamount, int newCudaCores)
+        public Laptop? EditItem(Laptop ExampleItem, int itemID)
         {
-            if (newName != "") { item.Name = newName; }
-            if (newStock != 0) { item.Stock = newStock; }
-            if (newPrice != 0) { item.Price = newPrice; }
-            if (newScreenSize != 0) { item.ScreenSize = newScreenSize; }
-            if (newRAMamount != 0) { item.RAM = newRAMamount; }
-            if (newStorageAmount != 0) { item.Storage = newStorageAmount; }
+            var item = GetItem(itemID);
+            if (item != null)
+            {
+                if (ExampleItem.Name != "") { item.Name = ExampleItem.Name; }
+                if (ExampleItem.Stock != null) { item.Stock = ExampleItem.Stock; }
+                if (ExampleItem.Price != null) { item.Price = (double)ExampleItem.Price; }
+                if (ExampleItem.ScreenSize != 0) { item.ScreenSize = ExampleItem.ScreenSize; }
+                if (ExampleItem.RAM != 0) { item.RAM = ExampleItem.RAM; }
+                if (ExampleItem.Storage != 0) { item.Storage = ExampleItem.Storage; }
+            }
             return item;
         }
 
         public Laptop? GetItem(int itemID)
         {
-            var laptop = LaptopList.FirstOrDefault(item => item.ID == itemID);
-            if (laptop != null)
-            {
-                return laptop;
-            }
-            else
-            {
-                return null;
-            }
+            return LaptopList.FirstOrDefault(item => item.ID == itemID);
         }
 
         public List<Laptop> GetAllItems()
