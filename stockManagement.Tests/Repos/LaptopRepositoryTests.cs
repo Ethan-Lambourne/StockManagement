@@ -1,7 +1,7 @@
-﻿using stockManagement.Models;
+﻿using StockManagement.Models;
 using Moq;
 
-namespace stockManagement.Repos
+namespace StockManagement.Repos
 {
     public class LaptopRepositoryTests
     {

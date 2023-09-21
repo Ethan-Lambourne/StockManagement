@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34003.232
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "stockManagement", "stockManagement\stockManagement.csproj", "{0E56AF60-B702-432B-A323-156790F3F573}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockManagement", "stockManagement\StockManagement.csproj", "{0E56AF60-B702-432B-A323-156790F3F573}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "stockManagement.Tests", "stockManagement.Tests\stockManagement.Tests.csproj", "{B8E88735-CF4B-4CD2-85C3-9076E54A71E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockManagement.Tests", "stockManagement.Tests\StockManagement.Tests.csproj", "{B8E88735-CF4B-4CD2-85C3-9076E54A71E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

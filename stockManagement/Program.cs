@@ -1,11 +1,13 @@
-﻿using stockManagement.Details;
-using stockManagement.Repos;
-using stockManagement.Models;
+﻿using StockManagement.Details;
+using StockManagement.Repos;
+using StockManagement.Models;
 
 var laptop = new LaptopRepository();
 var graphicsCard = new GraphicsCardRepository();
+var calculateDetail = new CalculateDetails(laptop, graphicsCard);
 var displayDetail = new DisplayDetails(laptop, graphicsCard);
-var addDetail = new AddDetail(laptop, graphicsCard);
+var addDetail = new AddDetail();
+var generateItemID = new GenerateItemID(laptop, graphicsCard);
 
 var loop = true;
 while (loop)
@@ -63,7 +65,7 @@ void CreateNewItem()
            "\n2. Graphics Card.");
     string itemType = addDetail.AddType();
 
-    int itemID = addDetail.GenerateID();
+    int itemID = generateItemID.GenerateID();
 
     Console.WriteLine("\nWhat is the item called?");
     string itemName = addDetail.AddName();
@@ -280,7 +282,6 @@ void TryToEditItem()
 
 void TrackStockByType()
 {
-    displayDetail.CalculateStocksAndValues();
     Console.Clear();
     Console.WriteLine("\nWhich type of item stock do you want to check?" +
             "\n1. Laptops." +
@@ -288,11 +289,11 @@ void TrackStockByType()
     string trackType = addDetail.AddType();
     if (trackType == "laptop")
     {
-        Console.WriteLine($"\nTotal laptop stock: {displayDetail.laptopStock}");
+        Console.WriteLine($"\nTotal laptop stock: {calculateDetail.GetLaptopStock()}");
     }
     if (trackType == "graphics card")
     {
-        Console.WriteLine($"\nTotal graphics card stock: {displayDetail.graphicsCardStock}");
+        Console.WriteLine($"\nTotal graphics card stock: {calculateDetail.GetGraphicsCardStock()}");
     }
 }
 
@@ -300,6 +301,15 @@ void GenerateTotalStockAndValueReport()
 {
     Console.Clear();
     displayDetail.DisplayAllItemsInStock();
-    displayDetail.CalculateStocksAndValues();
-    displayDetail.DisplayReportSummary();
+    DisplayReportSummary();
+}
+
+void DisplayReportSummary()
+{
+    Console.WriteLine($"\nLaptop stock: \t\t\t{calculateDetail.GetLaptopStock()}" +
+        $"\nGraphics card stock: \t\t{calculateDetail.GetGraphicsCardStock()}" +
+        $"\nTotal stock: \t\t\t{calculateDetail.GetLaptopStock() + calculateDetail.GetGraphicsCardStock()}" +
+        $"\n\nTotal laptop value: \t\t£{calculateDetail.GetTotalLaptopValue()}" +
+        $"\nTotal graphics card value: \t£{calculateDetail.GetTotalGraphicsCardValue()}" +
+        $"\nTotal value of all items: \t£{calculateDetail.GetTotalLaptopValue() + calculateDetail.GetTotalGraphicsCardValue()}");
 }

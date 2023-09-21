@@ -1,6 +1,6 @@
-﻿using stockManagement.Models;
+﻿using StockManagement.Models;
 
-namespace stockManagement.Repos
+namespace StockManagement.Repos
 {
     public class GraphicsCardRepository : IItemsRepository<GraphicsCard>
     {

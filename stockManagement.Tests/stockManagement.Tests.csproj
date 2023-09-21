@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\stockManagement\stockManagement.csproj" />
+    <ProjectReference Include="..\stockManagement\StockManagement.csproj" />
   </ItemGroup>
 
 </Project>

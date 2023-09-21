@@ -1,4 +1,4 @@
-﻿namespace stockManagement.Repos
+﻿namespace StockManagement.Repos
 {
     public interface IItemsRepository<T>
     {
