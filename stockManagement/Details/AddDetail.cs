@@ -1,4 +1,7 @@
-﻿namespace stockManagement
+﻿using StockManagement.Models;
+using StockManagement.Repos;
+
+namespace StockManagement.Details
 {
     public class AddDetail
     {

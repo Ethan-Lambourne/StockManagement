@@ -1,9 +1,9 @@
-﻿namespace stockManagement
+﻿namespace StockManagement.Models
 {
     public class Laptop : Items
     {
-        public Laptop(string itemName, string itemType, int itemStock, double itemPrice, double itemScreenSize, int itemRAMamount, int itemStorageAmount)
-            : base(itemName, itemType, itemStock, itemPrice)
+        public Laptop(int itemID, string itemName, string itemType, int? itemStock, double? itemPrice, double itemScreenSize, int itemRAMamount, int itemStorageAmount)
+            : base(itemID, itemName, itemType, itemStock, itemPrice)
         {
             ScreenSize = itemScreenSize;
             RAM = itemRAMamount;
@@ -18,7 +18,8 @@
 
         public override string ToString()
         {
-            return $"\nItem name: \t\t\t{Name}" +
+            return $"\nItem ID: \t\t\t{ID}" +
+                $"\nItem name: \t\t\t{Name}" +
                 $"\nItem type: \t\t\t{Type}" +
                 $"\nItem stock: \t\t\t{Stock}" +
                 $"\nItem price: \t\t\t£{Price}" +
