@@ -2,13 +2,13 @@
 {
     public abstract class Items
     {
-        public Items(int itemID, string itemName, string itemType, int? itemStock, double? itemPrice)
+        public Items(int ID, string Name, string Type, int? Stock, double? Price)
         {
-            ID = itemID;
-            Name = itemName;
-            Type = itemType;
-            Stock = itemStock;
-            Price = itemPrice;
+            this.ID = ID;
+            this.Name = Name;
+            this.Type = Type;
+            this.Stock = Stock;
+            this.Price = Price;
         }
 
         public int ID { get; }

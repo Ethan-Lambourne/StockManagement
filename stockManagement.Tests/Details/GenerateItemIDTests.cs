@@ -9,8 +9,8 @@ namespace StockManagement.Details
         [Test]
         public void CheckForValidItemID()
         {
-            var laptop = new Mock<LaptopRepository>();
-            var graphicsCard = new Mock<GraphicsCardRepository>();
+            var laptop = new Mock<CsvLaptopRepository>();
+            var graphicsCard = new Mock<CsvGraphicsCardRepository>();
             var generateItemID = new GenerateItemID(laptop.Object, graphicsCard.Object);
 
             int idToTest = generateItemID.GenerateID();

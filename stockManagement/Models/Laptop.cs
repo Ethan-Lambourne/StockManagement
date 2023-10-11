@@ -2,12 +2,12 @@
 {
     public class Laptop : Items
     {
-        public Laptop(int itemID, string itemName, string itemType, int? itemStock, double? itemPrice, double itemScreenSize, int itemRAMamount, int itemStorageAmount)
-            : base(itemID, itemName, itemType, itemStock, itemPrice)
+        public Laptop(int ID, string Name, string Type, int? Stock, double? Price, double ScreenSize, int RAM, int Storage)
+            : base(ID, Name, Type, Stock, Price)
         {
-            ScreenSize = itemScreenSize;
-            RAM = itemRAMamount;
-            Storage = itemStorageAmount;
+            this.ScreenSize = ScreenSize;
+            this.RAM = RAM;
+            this.Storage = Storage;
         }
 
         public double ScreenSize { get; set; }
