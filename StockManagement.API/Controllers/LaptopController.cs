@@ -1,18 +1,22 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
+using Microsoft.AspNetCore.Mvc;
 using StockManagement.API.Models;
 using System.Globalization;
 
-namespace StockManagement.Repos
+namespace StockManagement.API.Controllers
 {
-    public class CsvLaptopRepository : IItemsRepository<Laptop>
+    [ApiController]
+    [Route("API/Laptop")]
+    public class LaptopController : ControllerBase, IItemsController<Laptop>
     {
         private readonly string laptopFilePath = "C:\\dev\\stockManagement\\stockManagement.Shared\\ItemStorage\\LaptopData.csv";
         private readonly CsvConfiguration csvConfiguration = new(CultureInfo.InvariantCulture);
 
-        public Laptop AddItem(Laptop item)
+        [HttpPost("AddItem")]
+        public ActionResult<Laptop> AddItem(Laptop item)
         {
-            List<Laptop> allLaptops = GetAllItems();
+            List<Laptop> allLaptops = GetAllItemsInListForm();
             using StreamWriter laptopWriter = new(laptopFilePath);
             using CsvWriter csvLaptopWriter = new(laptopWriter, csvConfiguration);
 
@@ -20,13 +24,14 @@ namespace StockManagement.Repos
             csvLaptopWriter.WriteHeader<Laptop>();
             csvLaptopWriter.NextRecord();
             csvLaptopWriter.WriteRecords(allLaptops);
-            return item;
+            return Ok(item);
         }
 
-        public bool DeleteItem(int itemID)
+        [HttpDelete("DeleteItem")]
+        public ActionResult<bool> DeleteItem(int itemID)
         {
-            List<Laptop> allLaptops = GetAllItems();
-            var item = GetItem(itemID);
+            List<Laptop> allLaptops = GetAllItemsInListForm();
+            Laptop? item = allLaptops.FirstOrDefault(item => item.ID == itemID);
 
             if (item != null)
             {
@@ -40,20 +45,22 @@ namespace StockManagement.Repos
                         csvLaptopWriter.WriteHeader<Laptop>();
                         csvLaptopWriter.NextRecord();
                         csvLaptopWriter.WriteRecords(allLaptops);
-                        return true;
+                        return Ok(true);
                     }
                 }
-                return false;
+                return NotFound(false);
             }
             else
             {
-                return false;
+                return BadRequest(false);
             }
         }
 
-        public Laptop? EditItem(Laptop ExampleItem, int itemID)
+        [HttpPut("EditItem")]
+        public ActionResult<Laptop>? EditItem(Laptop ExampleItem, int itemID)
         {
-            Laptop? item = GetItem(itemID);
+            List<Laptop> allLaptops = GetAllItemsInListForm();
+            Laptop? item = allLaptops.FirstOrDefault(item => item.ID == itemID);
             if (item != null)
             {
                 if (ExampleItem.Name != "") { item.Name = ExampleItem.Name; }
@@ -64,22 +71,39 @@ namespace StockManagement.Repos
                 if (ExampleItem.Storage != 0) { item.Storage = ExampleItem.Storage; }
                 DeleteItem(itemID);
                 AddItem(item);
+                return Ok(item);
             }
-            return item;
+            return BadRequest(item);
         }
 
-        public List<Laptop> GetAllItems()
+        [HttpGet("GetAllItems")]
+        public ActionResult<Laptop> GetAllItems()
+        {
+            using StreamReader laptopReader = new(laptopFilePath);
+            using CsvReader csvLaptopReader = new(laptopReader, csvConfiguration);
+            List<Laptop> allLaptops = csvLaptopReader.GetRecords<Laptop>().ToList();
+            return Ok(allLaptops);
+        }
+
+        [HttpGet("GetItemById")]
+        public ActionResult<Laptop> GetItem(int itemID)
+        {
+            List<Laptop> allLaptops = GetAllItemsInListForm();
+            Laptop? item = allLaptops.FirstOrDefault(item => item.ID == itemID);
+            if (item == null)
+            {
+                return NotFound(item);
+            }
+            return Ok(item);
+        }
+
+        [HttpGet("GetAllItemsInListForm")]
+        public List<Laptop> GetAllItemsInListForm()
         {
             using StreamReader laptopReader = new(laptopFilePath);
             using CsvReader csvLaptopReader = new(laptopReader, csvConfiguration);
             List<Laptop> allLaptops = csvLaptopReader.GetRecords<Laptop>().ToList();
             return allLaptops;
-        }
-
-        public Laptop? GetItem(int itemID)
-        {
-            List<Laptop> allLaptops = GetAllItems();
-            return allLaptops.FirstOrDefault(item => item.ID == itemID);
         }
     }
 }

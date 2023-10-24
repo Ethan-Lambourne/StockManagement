@@ -1,18 +1,22 @@
-﻿using CsvHelper.Configuration;
-using CsvHelper;
-using System.Globalization;
+﻿using CsvHelper;
+using CsvHelper.Configuration;
+using Microsoft.AspNetCore.Mvc;
 using StockManagement.API.Models;
+using System.Globalization;
 
-namespace StockManagement.Repos
+namespace StockManagement.API.Controllers
 {
-    public class CsvGraphicsCardRepository : IItemsRepository<GraphicsCard>
+    [ApiController]
+    [Route("API/GraphicsCard")]
+    public class GraphicsCardController : ControllerBase, IItemsController<GraphicsCard>
     {
         private readonly string graphicsCardFilePath = "C:\\dev\\stockManagement\\stockManagement.Shared\\ItemStorage\\GraphicsCardData.csv";
         private readonly CsvConfiguration csvConfiguration = new(CultureInfo.InvariantCulture);
 
-        public GraphicsCard AddItem(GraphicsCard item)
+        [HttpPost("AddItem")]
+        public ActionResult<GraphicsCard> AddItem(GraphicsCard item)
         {
-            List<GraphicsCard> allGraphicsCards = GetAllItems();
+            List<GraphicsCard> allGraphicsCards = GetAllItemsInListForm();
             using StreamWriter graphicsCardWriter = new(graphicsCardFilePath);
             using CsvWriter csvGraphicsCardWriter = new(graphicsCardWriter, csvConfiguration);
 
@@ -20,13 +24,14 @@ namespace StockManagement.Repos
             csvGraphicsCardWriter.WriteHeader<GraphicsCard>();
             csvGraphicsCardWriter.NextRecord();
             csvGraphicsCardWriter.WriteRecords(allGraphicsCards);
-            return item;
+            return Ok(item);
         }
 
-        public bool DeleteItem(int itemID)
+        [HttpDelete("DeleteItem")]
+        public ActionResult<bool> DeleteItem(int itemID)
         {
-            List<GraphicsCard> allGraphicsCards = GetAllItems();
-            var item = GetItem(itemID);
+            List<GraphicsCard> allGraphicsCards = GetAllItemsInListForm();
+            GraphicsCard? item = allGraphicsCards.FirstOrDefault(item => item.ID == itemID);
 
             if (item != null)
             {
@@ -40,20 +45,22 @@ namespace StockManagement.Repos
                         csvGraphicsCardWriter.WriteHeader<GraphicsCard>();
                         csvGraphicsCardWriter.NextRecord();
                         csvGraphicsCardWriter.WriteRecords(allGraphicsCards);
-                        return true;
+                        return Ok(true);
                     }
                 }
-                return false;
+                return NotFound(false);
             }
             else
             {
-                return false;
+                return BadRequest(false);
             }
         }
 
-        public GraphicsCard? EditItem(GraphicsCard ExampleItem, int itemID)
+        [HttpPut("EditItem")]
+        public ActionResult<GraphicsCard>? EditItem(GraphicsCard ExampleItem, int itemID)
         {
-            GraphicsCard? item = GetItem(itemID);
+            List<GraphicsCard> allGraphicsCards = GetAllItemsInListForm();
+            GraphicsCard? item = allGraphicsCards.FirstOrDefault(item => item.ID == itemID);
             if (item != null)
             {
                 if (ExampleItem.Name != "") { item.Name = ExampleItem.Name; }
@@ -63,23 +70,39 @@ namespace StockManagement.Repos
                 if (ExampleItem.CudaCores != 0) { item.CudaCores = ExampleItem.CudaCores; }
                 DeleteItem(itemID);
                 AddItem(item);
+                return Ok(item);
             }
-            return item;
+            return BadRequest(item);
         }
 
-        public List<GraphicsCard> GetAllItems()
+        [HttpGet("GetAllItems")]
+        public ActionResult<GraphicsCard> GetAllItems()
         {
             using StreamReader graphicsCardReader = new(graphicsCardFilePath);
             using CsvReader csvGraphicsCardReader = new(graphicsCardReader, csvConfiguration);
-
             List<GraphicsCard> allGraphicsCards = csvGraphicsCardReader.GetRecords<GraphicsCard>().ToList();
-            return allGraphicsCards;
+            return Ok(allGraphicsCards);
         }
 
-        public GraphicsCard? GetItem(int itemID)
+        [HttpGet("GetItemById")]
+        public ActionResult<GraphicsCard>? GetItem(int itemID)
         {
-            List<GraphicsCard> allGraphicsCards = GetAllItems();
-            return allGraphicsCards.FirstOrDefault(item => item.ID == itemID); ;
+            List<GraphicsCard> allGraphicsCards = GetAllItemsInListForm();
+            GraphicsCard? item = allGraphicsCards.FirstOrDefault(item => item.ID == itemID);
+            if (item == null)
+            {
+                return NotFound(item);
+            }
+            return Ok(item);
+        }
+
+        [HttpGet("GetAllItemsInListForm")]
+        public List<GraphicsCard> GetAllItemsInListForm()
+        {
+            using StreamReader graphicsCardReader = new(graphicsCardFilePath);
+            using CsvReader csvGraphicsCardReader = new(graphicsCardReader, csvConfiguration);
+            List<GraphicsCard> allGraphicsCards = csvGraphicsCardReader.GetRecords<GraphicsCard>().ToList();
+            return allGraphicsCards;
         }
     }
 }

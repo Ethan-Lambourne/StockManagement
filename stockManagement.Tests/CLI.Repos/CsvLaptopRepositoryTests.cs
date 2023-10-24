@@ -1,6 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestPlatform.ObjectModel;
-using StockManagement.Models;
-using StockManagement.Repos;
+using StockManagement.API.Models;
 
 namespace StockManagement.Repos
 {

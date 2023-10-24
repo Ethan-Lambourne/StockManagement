@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\stockManagement\StockManagement.csproj" />
+    <ProjectReference Include="..\stockManagement\StockManagement.CLI.csproj" />
   </ItemGroup>
 
 </Project>

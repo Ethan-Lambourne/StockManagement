@@ -1,4 +1,4 @@
-﻿namespace StockManagement.Models
+﻿namespace StockManagement.API.Models
 {
     public class Laptop : Items
     {

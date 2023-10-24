@@ -1,4 +1,4 @@
-﻿using StockManagement.Models;
+﻿using StockManagement.API.Models;
 using StockManagement.Repos;
 
 namespace StockManagement.Details
