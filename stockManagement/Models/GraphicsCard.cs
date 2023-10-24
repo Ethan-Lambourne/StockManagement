@@ -5,11 +5,11 @@ namespace StockManagement.Models
 {
     public class GraphicsCard : Items
     {
-        public GraphicsCard(int itemID, string itemName, string itemType, int? itemStock, double? itemPrice, int itemVRAMamount, int itemCudaCores)
-            : base(itemID, itemName, itemType, itemStock, itemPrice)
+        public GraphicsCard(int ID, string Name, string Type, int? Stock, double? Price, int VRAM, int CudaCores)
+            : base(ID, Name, Type, Stock, Price)
         {
-            VRAM = itemVRAMamount;
-            CudaCores = itemCudaCores;
+            this.VRAM = VRAM;
+            this.CudaCores = CudaCores;
         }
 
         public int VRAM { get; set; }

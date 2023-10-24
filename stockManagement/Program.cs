@@ -2,8 +2,8 @@
 using StockManagement.Repos;
 using StockManagement.Models;
 
-var laptop = new LaptopRepository();
-var graphicsCard = new GraphicsCardRepository();
+var laptop = new CsvLaptopRepository();
+var graphicsCard = new CsvGraphicsCardRepository();
 var calculateDetail = new CalculateDetails(laptop, graphicsCard);
 var displayDetail = new DisplayDetails(laptop, graphicsCard);
 var addDetail = new AddDetail();

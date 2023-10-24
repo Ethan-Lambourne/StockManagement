@@ -10,6 +10,6 @@
 
         bool DeleteItem(int itemID);
 
-        T? EditItem(T item, int itemID);
+        T? EditItem(T ExampleItem, int itemID);
     }
 }
