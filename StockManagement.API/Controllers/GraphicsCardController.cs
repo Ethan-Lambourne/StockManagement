@@ -8,7 +8,12 @@ namespace StockManagement.API.Controllers
     [Route("API/GraphicsCard")]
     public class GraphicsCardController : ControllerBase, IItemsController<GraphicsCard>
     {
-        public CsvGraphicsCardRepository _csvGraphicsCardRepository = new();
+        private IItemsRepository<GraphicsCard> _csvGraphicsCardRepository;
+
+        public GraphicsCardController(IItemsRepository<GraphicsCard> csvGraphicsCardRepository)
+        {
+            _csvGraphicsCardRepository = csvGraphicsCardRepository;
+        }
 
         [HttpPost("AddItem")]
         public ActionResult<GraphicsCard> AddItem(GraphicsCard item)

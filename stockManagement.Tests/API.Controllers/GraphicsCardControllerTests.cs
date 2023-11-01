@@ -13,24 +13,31 @@ namespace stockManagement.API.Controllers
         [Test]
         public void GetIndividualGraphicsCardUsingGraphicsCardController()
         {
-            var mockCsvGraphicsCardRepository = new Mock<CsvGraphicsCardRepository>();
-            var graphicsCardController = new GraphicsCardController();
-            mockCsvGraphicsCardRepository.Object.AddItem(item);
+            var mockCsvGraphicsCardRepository = new Mock<IItemsRepository<GraphicsCard>>();
+            var graphicsCardController = new GraphicsCardController(mockCsvGraphicsCardRepository.Object);
+            mockCsvGraphicsCardRepository.Setup(x => x.GetItem(item.ID)).Returns(item);
 
             var check = graphicsCardController.GetItem(item.ID);
 
+            var checkResult = (ObjectResult)check!.Result!;
+            GraphicsCard checkValue = (GraphicsCard)checkResult!.Value!;
             Assert.Multiple(() =>
             {
                 Assert.That(check, Is.Not.EqualTo(null));
                 Assert.That(check!.Result, Is.InstanceOf(typeof(OkObjectResult)));
+                Assert.That(checkValue.Name, Is.EqualTo(item.Name));
+                Assert.That(checkValue.Stock, Is.EqualTo(item.Stock));
+                Assert.That(checkValue.Price, Is.EqualTo(item.Price));
+                Assert.That(checkValue.VRAM, Is.EqualTo(item.VRAM));
+                Assert.That(checkValue.CudaCores, Is.EqualTo(item.CudaCores));
             });
-            mockCsvGraphicsCardRepository.Object.DeleteItem(item.ID);
         }
 
         [Test]
         public void GetAllGraphicsCardsUsingGraphicsCardController()
         {
-            var graphicsCardController = new GraphicsCardController();
+            var mockCsvGraphicsCardRepository = new Mock<IItemsRepository<GraphicsCard>>();
+            var graphicsCardController = new GraphicsCardController(mockCsvGraphicsCardRepository.Object);
 
             var check = graphicsCardController.GetAllItems();
 
@@ -40,13 +47,24 @@ namespace stockManagement.API.Controllers
         [Test]
         public void AddGraphicsCardUsingGraphicsCardController()
         {
-            var mockCsvGraphicsCardRepository = new Mock<CsvGraphicsCardRepository>();
-            var graphicsCardController = new GraphicsCardController();
+            var mockCsvGraphicsCardRepository = new Mock<IItemsRepository<GraphicsCard>>();
+            var graphicsCardController = new GraphicsCardController(mockCsvGraphicsCardRepository.Object);
+            mockCsvGraphicsCardRepository.Setup(x => x.AddItem(item)).Returns(item);
 
             var check = graphicsCardController.AddItem(item);
 
-            Assert.That(check.Result, Is.InstanceOf(typeof(OkObjectResult)));
-            mockCsvGraphicsCardRepository.Object.DeleteItem(item.ID);
+            var checkResult = (ObjectResult)check!.Result!;
+            GraphicsCard checkValue = (GraphicsCard)checkResult!.Value!;
+            Assert.Multiple(() =>
+            {
+                Assert.That(check, Is.Not.EqualTo(null));
+                Assert.That(check!.Result, Is.InstanceOf(typeof(OkObjectResult)));
+                Assert.That(checkValue.Name, Is.EqualTo(item.Name));
+                Assert.That(checkValue.Stock, Is.EqualTo(item.Stock));
+                Assert.That(checkValue.Price, Is.EqualTo(item.Price));
+                Assert.That(checkValue.VRAM, Is.EqualTo(item.VRAM));
+                Assert.That(checkValue.CudaCores, Is.EqualTo(item.CudaCores));
+            });
         }
 
         [TestCase("test name", 50, 100, 8, 4)]
@@ -55,27 +73,33 @@ namespace stockManagement.API.Controllers
         [TestCase("test name!&*^%4", 1, 0, 20, 12)]
         public void EditGraphicsCardUsingGraphicsCardController(string testName, int testStock, double testPrice, int testVRAM, int testCudaCores)
         {
-            var mockCsvGraphicsCardRepository = new Mock<CsvGraphicsCardRepository>();
-            var graphicsCardController = new GraphicsCardController();
+            var mockCsvGraphicsCardRepository = new Mock<IItemsRepository<GraphicsCard>>();
+            var graphicsCardController = new GraphicsCardController(mockCsvGraphicsCardRepository.Object);
             GraphicsCard ExampleItem = new(item.ID, testName, item.Type, testStock, testPrice, testVRAM, testCudaCores);
-            mockCsvGraphicsCardRepository.Object.AddItem(item);
+            mockCsvGraphicsCardRepository.Setup(x => x.EditItem(ExampleItem, item.ID)).Returns(ExampleItem);
 
             var check = graphicsCardController.EditItem(ExampleItem, item.ID);
 
+            var checkResult = (ObjectResult)check!.Result!;
+            GraphicsCard checkValue = (GraphicsCard)checkResult!.Value!;
             Assert.Multiple(() =>
             {
                 Assert.That(check, Is.Not.EqualTo(null));
                 Assert.That(check!.Result, Is.InstanceOf(typeof(OkObjectResult)));
+                Assert.That(checkValue.Name, Is.EqualTo(testName));
+                Assert.That(checkValue.Stock, Is.EqualTo(testStock));
+                Assert.That(checkValue.Price, Is.EqualTo(testPrice));
+                Assert.That(checkValue.VRAM, Is.EqualTo(testVRAM));
+                Assert.That(checkValue.CudaCores, Is.EqualTo(testCudaCores));
             });
-            mockCsvGraphicsCardRepository.Object.DeleteItem(item.ID);
         }
 
         [Test]
         public void DeleteLaptopUsingLaptopController()
         {
-            var mockCsvGraphicsCardRepository = new Mock<CsvGraphicsCardRepository>();
-            var graphicsCardController = new GraphicsCardController();
-            mockCsvGraphicsCardRepository.Object.AddItem(item);
+            var mockCsvGraphicsCardRepository = new Mock<IItemsRepository<GraphicsCard>>();
+            var graphicsCardController = new GraphicsCardController(mockCsvGraphicsCardRepository.Object);
+            mockCsvGraphicsCardRepository.Setup(x => x.DeleteItem(item.ID)).Returns(true);
 
             var check = graphicsCardController.DeleteItem(item.ID);
 

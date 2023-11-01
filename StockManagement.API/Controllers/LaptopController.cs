@@ -8,7 +8,12 @@ namespace StockManagement.API.Controllers
     [Route("API/Laptop")]
     public class LaptopController : ControllerBase, IItemsController<Laptop>
     {
-        public CsvLaptopRepository _csvLaptopRepository = new();
+        private IItemsRepository<Laptop> _csvLaptopRepository;
+
+        public LaptopController(IItemsRepository<Laptop> csvLaptopRepository)
+        {
+            _csvLaptopRepository = csvLaptopRepository;
+        }
 
         [HttpPost("AddItem")]
         public ActionResult<Laptop> AddItem(Laptop item)
