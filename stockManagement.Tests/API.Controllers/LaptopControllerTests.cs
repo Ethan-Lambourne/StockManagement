@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using StockManagement.API.Controllers;
 using StockManagement.Shared.Models;
@@ -15,7 +16,7 @@ namespace stockManagement.API.Controllers
         {
             var mockCsvLaptopRepository = new Mock<IItemsRepository<Laptop>>();
             var laptopController = new LaptopController(mockCsvLaptopRepository.Object);
-            mockCsvLaptopRepository.Setup(x => x.GetItem(item.ID)).Returns(item);
+            mockCsvLaptopRepository.Setup(x => x.GetItem(item.ID)).Returns(item).Verifiable();
 
             var gottenLaptop = laptopController.GetItem(item.ID);
 
@@ -32,6 +33,7 @@ namespace stockManagement.API.Controllers
                 Assert.That(gottenLaptopValue.RAM, Is.EqualTo(item.RAM));
                 Assert.That(gottenLaptopValue.Storage, Is.EqualTo(item.Storage));
             });
+            Mock.VerifyAll();
         }
 
         [Test]
@@ -50,7 +52,7 @@ namespace stockManagement.API.Controllers
         {
             var mockCsvLaptopRepository = new Mock<IItemsRepository<Laptop>>();
             var laptopController = new LaptopController(mockCsvLaptopRepository.Object);
-            mockCsvLaptopRepository.Setup(x => x.AddItem(item)).Returns(item);
+            mockCsvLaptopRepository.Setup(x => x.AddItem(item)).Returns(item).Verifiable();
 
             var addedLaptop = laptopController.AddItem(item);
 
@@ -59,6 +61,7 @@ namespace stockManagement.API.Controllers
             Assert.Multiple(() =>
             {
                 Assert.That(addedLaptop, Is.Not.EqualTo(null));
+                Assert.That(addedLaptopResult.StatusCode, Is.EqualTo(StatusCodes.Status201Created));
                 Assert.That(addedLaptopValue.Name, Is.EqualTo(item.Name));
                 Assert.That(addedLaptopValue.Stock, Is.EqualTo(item.Stock));
                 Assert.That(addedLaptopValue.Price, Is.EqualTo(item.Price));
@@ -66,6 +69,7 @@ namespace stockManagement.API.Controllers
                 Assert.That(addedLaptopValue.RAM, Is.EqualTo(item.RAM));
                 Assert.That(addedLaptopValue.Storage, Is.EqualTo(item.Storage));
             });
+            Mock.VerifyAll();
         }
 
         [TestCase("test name", 50, 100, 20, 16, 500)]
@@ -77,7 +81,7 @@ namespace stockManagement.API.Controllers
             var mockCsvLaptopRepository = new Mock<IItemsRepository<Laptop>>();
             var laptopController = new LaptopController(mockCsvLaptopRepository.Object);
             Laptop ExampleItem = new(item.ID, testName, item.Type, testStock, testPrice, testScreenSize, testRAM, testStorage);
-            mockCsvLaptopRepository.Setup(x => x.EditItem(ExampleItem, item.ID)).Returns(ExampleItem);
+            mockCsvLaptopRepository.Setup(x => x.EditItem(ExampleItem, item.ID)).Returns(ExampleItem).Verifiable();
 
             var editedLaptop = laptopController.EditItem(ExampleItem, item.ID);
 
@@ -86,6 +90,7 @@ namespace stockManagement.API.Controllers
             Assert.Multiple(() =>
             {
                 Assert.That(editedLaptop, Is.Not.EqualTo(null));
+                Assert.That(editedLaptopResult.StatusCode, Is.EqualTo(StatusCodes.Status201Created));
                 Assert.That(editedLaptopValue.Name, Is.EqualTo(testName));
                 Assert.That(editedLaptopValue.Stock, Is.EqualTo(testStock));
                 Assert.That(editedLaptopValue.Price, Is.EqualTo(testPrice));
@@ -93,6 +98,7 @@ namespace stockManagement.API.Controllers
                 Assert.That(editedLaptopValue.RAM, Is.EqualTo(testRAM));
                 Assert.That(editedLaptopValue.Storage, Is.EqualTo(testStorage));
             });
+            Mock.VerifyAll();
         }
 
         [Test]
@@ -100,13 +106,18 @@ namespace stockManagement.API.Controllers
         {
             var mockCsvLaptopRepository = new Mock<IItemsRepository<Laptop>>();
             var laptopController = new LaptopController(mockCsvLaptopRepository.Object);
-            mockCsvLaptopRepository.Setup(x => x.DeleteItem(item.ID)).Returns(true);
+            mockCsvLaptopRepository.Setup(x => x.DeleteItem(item.ID)).Returns(true).Verifiable();
 
             var deletedLaptop = laptopController.DeleteItem(item.ID);
 
             var deletedLaptopResult = deletedLaptop as ObjectResult;
             bool deletedLaptopValue = (bool)deletedLaptopResult!.Value!;
-            Assert.That(deletedLaptopValue, Is.EqualTo(true));
+            Assert.Multiple(() =>
+            {
+                Assert.That(deletedLaptopValue, Is.EqualTo(true));
+                Assert.That(deletedLaptopResult.StatusCode, Is.EqualTo(StatusCodes.Status204NoContent));
+            });
+            Mock.VerifyAll();
         }
     }
 }

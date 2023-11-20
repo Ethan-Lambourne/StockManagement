@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using StockManagement.API.Controllers;
 using StockManagement.Shared.Models;
@@ -15,7 +16,7 @@ namespace stockManagement.API.Controllers
         {
             var mockCsvGraphicsCardRepository = new Mock<IItemsRepository<GraphicsCard>>();
             var graphicsCardController = new GraphicsCardController(mockCsvGraphicsCardRepository.Object);
-            mockCsvGraphicsCardRepository.Setup(x => x.GetItem(item.ID)).Returns(item);
+            mockCsvGraphicsCardRepository.Setup(x => x.GetItem(item.ID)).Returns(item).Verifiable();
 
             var gottenGraphicsCard = graphicsCardController.GetItem(item.ID);
 
@@ -30,6 +31,7 @@ namespace stockManagement.API.Controllers
                 Assert.That(gottenGraphicsCardValue.VRAM, Is.EqualTo(item.VRAM));
                 Assert.That(gottenGraphicsCardValue.CudaCores, Is.EqualTo(item.CudaCores));
             });
+            Mock.VerifyAll();
         }
 
         [Test]
@@ -48,7 +50,7 @@ namespace stockManagement.API.Controllers
         {
             var mockCsvGraphicsCardRepository = new Mock<IItemsRepository<GraphicsCard>>();
             var graphicsCardController = new GraphicsCardController(mockCsvGraphicsCardRepository.Object);
-            mockCsvGraphicsCardRepository.Setup(x => x.AddItem(item)).Returns(item);
+            mockCsvGraphicsCardRepository.Setup(x => x.AddItem(item)).Returns(item).Verifiable();
 
             var addedGraphicsCard = graphicsCardController.AddItem(item);
 
@@ -57,12 +59,14 @@ namespace stockManagement.API.Controllers
             Assert.Multiple(() =>
             {
                 Assert.That(addedGraphicsCard, Is.Not.EqualTo(null));
+                Assert.That(addedGraphicsCardResult.StatusCode, Is.EqualTo(StatusCodes.Status201Created));
                 Assert.That(addedGraphicsCardValue.Name, Is.EqualTo(item.Name));
                 Assert.That(addedGraphicsCardValue.Stock, Is.EqualTo(item.Stock));
                 Assert.That(addedGraphicsCardValue.Price, Is.EqualTo(item.Price));
                 Assert.That(addedGraphicsCardValue.VRAM, Is.EqualTo(item.VRAM));
                 Assert.That(addedGraphicsCardValue.CudaCores, Is.EqualTo(item.CudaCores));
             });
+            Mock.VerifyAll();
         }
 
         [TestCase("test name", 50, 100, 8, 4)]
@@ -74,7 +78,7 @@ namespace stockManagement.API.Controllers
             var mockCsvGraphicsCardRepository = new Mock<IItemsRepository<GraphicsCard>>();
             var graphicsCardController = new GraphicsCardController(mockCsvGraphicsCardRepository.Object);
             GraphicsCard ExampleItem = new(item.ID, testName, item.Type, testStock, testPrice, testVRAM, testCudaCores);
-            mockCsvGraphicsCardRepository.Setup(x => x.EditItem(ExampleItem, item.ID)).Returns(ExampleItem);
+            mockCsvGraphicsCardRepository.Setup(x => x.EditItem(ExampleItem, item.ID)).Returns(ExampleItem).Verifiable();
 
             var editedGraphicsCard = graphicsCardController.EditItem(ExampleItem, item.ID);
 
@@ -83,12 +87,14 @@ namespace stockManagement.API.Controllers
             Assert.Multiple(() =>
             {
                 Assert.That(editedGraphicsCard, Is.Not.EqualTo(null));
+                Assert.That(editedGraphicsCardResult.StatusCode, Is.EqualTo(StatusCodes.Status201Created));
                 Assert.That(editedGraphicsCardValue.Name, Is.EqualTo(testName));
                 Assert.That(editedGraphicsCardValue.Stock, Is.EqualTo(testStock));
                 Assert.That(editedGraphicsCardValue.Price, Is.EqualTo(testPrice));
                 Assert.That(editedGraphicsCardValue.VRAM, Is.EqualTo(testVRAM));
                 Assert.That(editedGraphicsCardValue.CudaCores, Is.EqualTo(testCudaCores));
             });
+            Mock.VerifyAll();
         }
 
         [Test]
@@ -96,13 +102,18 @@ namespace stockManagement.API.Controllers
         {
             var mockCsvGraphicsCardRepository = new Mock<IItemsRepository<GraphicsCard>>();
             var graphicsCardController = new GraphicsCardController(mockCsvGraphicsCardRepository.Object);
-            mockCsvGraphicsCardRepository.Setup(x => x.DeleteItem(item.ID)).Returns(true);
+            mockCsvGraphicsCardRepository.Setup(x => x.DeleteItem(item.ID)).Returns(true).Verifiable();
 
             var deletedGraphicsCard = graphicsCardController.DeleteItem(item.ID);
 
             var deletedGraphicsCardResult = deletedGraphicsCard as ObjectResult;
             bool deletedGraphicsCardValue = (bool)deletedGraphicsCardResult!.Value!;
-            Assert.That(deletedGraphicsCardValue, Is.EqualTo(true));
+            Assert.Multiple(() =>
+            {
+                Assert.That(deletedGraphicsCardValue, Is.EqualTo(true));
+                Assert.That(deletedGraphicsCardResult.StatusCode, Is.EqualTo(StatusCodes.Status204NoContent));
+            });
+            Mock.VerifyAll();
         }
     }
 }
