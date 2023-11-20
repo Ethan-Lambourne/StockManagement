@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Data files
+stockManagement.Shared\ItemStorage\LaptopData.csv
+stockManagement.Shared\ItemStorage\GraphicsCardData.csv
