@@ -1,5 +1,4 @@
-﻿
-namespace StockManagement.API.Models
+﻿namespace StockManagement.Shared.Models
 {
     public class GraphicsCard : Items
     {

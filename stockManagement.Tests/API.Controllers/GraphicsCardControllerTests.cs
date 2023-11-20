@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
 using StockManagement.API.Controllers;
-using StockManagement.API.Models;
-using StockManagement.Repos;
+using StockManagement.Shared.Models;
+using StockManagement.Shared.Repos;
 
 namespace stockManagement.API.Controllers
 {
@@ -17,19 +17,18 @@ namespace stockManagement.API.Controllers
             var graphicsCardController = new GraphicsCardController(mockCsvGraphicsCardRepository.Object);
             mockCsvGraphicsCardRepository.Setup(x => x.GetItem(item.ID)).Returns(item);
 
-            var check = graphicsCardController.GetItem(item.ID);
+            var gottenGraphicsCard = graphicsCardController.GetItem(item.ID);
 
-            var checkResult = (ObjectResult)check!.Result!;
-            GraphicsCard checkValue = (GraphicsCard)checkResult!.Value!;
+            var gottenGraphicsCardResult = gottenGraphicsCard as ObjectResult;
+            GraphicsCard gottenGraphicsCardValue = (GraphicsCard)gottenGraphicsCardResult!.Value!;
             Assert.Multiple(() =>
             {
-                Assert.That(check, Is.Not.EqualTo(null));
-                Assert.That(check!.Result, Is.InstanceOf(typeof(OkObjectResult)));
-                Assert.That(checkValue.Name, Is.EqualTo(item.Name));
-                Assert.That(checkValue.Stock, Is.EqualTo(item.Stock));
-                Assert.That(checkValue.Price, Is.EqualTo(item.Price));
-                Assert.That(checkValue.VRAM, Is.EqualTo(item.VRAM));
-                Assert.That(checkValue.CudaCores, Is.EqualTo(item.CudaCores));
+                Assert.That(gottenGraphicsCard, Is.Not.EqualTo(null));
+                Assert.That(gottenGraphicsCardValue.Name, Is.EqualTo(item.Name));
+                Assert.That(gottenGraphicsCardValue.Stock, Is.EqualTo(item.Stock));
+                Assert.That(gottenGraphicsCardValue.Price, Is.EqualTo(item.Price));
+                Assert.That(gottenGraphicsCardValue.VRAM, Is.EqualTo(item.VRAM));
+                Assert.That(gottenGraphicsCardValue.CudaCores, Is.EqualTo(item.CudaCores));
             });
         }
 
@@ -39,9 +38,9 @@ namespace stockManagement.API.Controllers
             var mockCsvGraphicsCardRepository = new Mock<IItemsRepository<GraphicsCard>>();
             var graphicsCardController = new GraphicsCardController(mockCsvGraphicsCardRepository.Object);
 
-            var check = graphicsCardController.GetAllItems();
+            var allGraphicsCards = graphicsCardController.GetAllItems();
 
-            Assert.That(check.Result, Is.InstanceOf(typeof(OkObjectResult)));
+            Assert.That(allGraphicsCards, Is.InstanceOf(typeof(OkObjectResult)));
         }
 
         [Test]
@@ -51,19 +50,18 @@ namespace stockManagement.API.Controllers
             var graphicsCardController = new GraphicsCardController(mockCsvGraphicsCardRepository.Object);
             mockCsvGraphicsCardRepository.Setup(x => x.AddItem(item)).Returns(item);
 
-            var check = graphicsCardController.AddItem(item);
+            var addedGraphicsCard = graphicsCardController.AddItem(item);
 
-            var checkResult = (ObjectResult)check!.Result!;
-            GraphicsCard checkValue = (GraphicsCard)checkResult!.Value!;
+            var addedGraphicsCardResult = addedGraphicsCard as ObjectResult;
+            GraphicsCard addedGraphicsCardValue = (GraphicsCard)addedGraphicsCardResult!.Value!;
             Assert.Multiple(() =>
             {
-                Assert.That(check, Is.Not.EqualTo(null));
-                Assert.That(check!.Result, Is.InstanceOf(typeof(OkObjectResult)));
-                Assert.That(checkValue.Name, Is.EqualTo(item.Name));
-                Assert.That(checkValue.Stock, Is.EqualTo(item.Stock));
-                Assert.That(checkValue.Price, Is.EqualTo(item.Price));
-                Assert.That(checkValue.VRAM, Is.EqualTo(item.VRAM));
-                Assert.That(checkValue.CudaCores, Is.EqualTo(item.CudaCores));
+                Assert.That(addedGraphicsCard, Is.Not.EqualTo(null));
+                Assert.That(addedGraphicsCardValue.Name, Is.EqualTo(item.Name));
+                Assert.That(addedGraphicsCardValue.Stock, Is.EqualTo(item.Stock));
+                Assert.That(addedGraphicsCardValue.Price, Is.EqualTo(item.Price));
+                Assert.That(addedGraphicsCardValue.VRAM, Is.EqualTo(item.VRAM));
+                Assert.That(addedGraphicsCardValue.CudaCores, Is.EqualTo(item.CudaCores));
             });
         }
 
@@ -78,19 +76,18 @@ namespace stockManagement.API.Controllers
             GraphicsCard ExampleItem = new(item.ID, testName, item.Type, testStock, testPrice, testVRAM, testCudaCores);
             mockCsvGraphicsCardRepository.Setup(x => x.EditItem(ExampleItem, item.ID)).Returns(ExampleItem);
 
-            var check = graphicsCardController.EditItem(ExampleItem, item.ID);
+            var editedGraphicsCard = graphicsCardController.EditItem(ExampleItem, item.ID);
 
-            var checkResult = (ObjectResult)check!.Result!;
-            GraphicsCard checkValue = (GraphicsCard)checkResult!.Value!;
+            var editedGraphicsCardResult = editedGraphicsCard as ObjectResult;
+            GraphicsCard editedGraphicsCardValue = (GraphicsCard)editedGraphicsCardResult!.Value!;
             Assert.Multiple(() =>
             {
-                Assert.That(check, Is.Not.EqualTo(null));
-                Assert.That(check!.Result, Is.InstanceOf(typeof(OkObjectResult)));
-                Assert.That(checkValue.Name, Is.EqualTo(testName));
-                Assert.That(checkValue.Stock, Is.EqualTo(testStock));
-                Assert.That(checkValue.Price, Is.EqualTo(testPrice));
-                Assert.That(checkValue.VRAM, Is.EqualTo(testVRAM));
-                Assert.That(checkValue.CudaCores, Is.EqualTo(testCudaCores));
+                Assert.That(editedGraphicsCard, Is.Not.EqualTo(null));
+                Assert.That(editedGraphicsCardValue.Name, Is.EqualTo(testName));
+                Assert.That(editedGraphicsCardValue.Stock, Is.EqualTo(testStock));
+                Assert.That(editedGraphicsCardValue.Price, Is.EqualTo(testPrice));
+                Assert.That(editedGraphicsCardValue.VRAM, Is.EqualTo(testVRAM));
+                Assert.That(editedGraphicsCardValue.CudaCores, Is.EqualTo(testCudaCores));
             });
         }
 
@@ -101,9 +98,11 @@ namespace stockManagement.API.Controllers
             var graphicsCardController = new GraphicsCardController(mockCsvGraphicsCardRepository.Object);
             mockCsvGraphicsCardRepository.Setup(x => x.DeleteItem(item.ID)).Returns(true);
 
-            var check = graphicsCardController.DeleteItem(item.ID);
+            var deletedGraphicsCard = graphicsCardController.DeleteItem(item.ID);
 
-            Assert.That(check.Result, Is.InstanceOf(typeof(OkObjectResult)));
+            var deletedGraphicsCardResult = deletedGraphicsCard as ObjectResult;
+            bool deletedGraphicsCardValue = (bool)deletedGraphicsCardResult!.Value!;
+            Assert.That(deletedGraphicsCardValue, Is.EqualTo(true));
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestPlatform.ObjectModel;
-using StockManagement.API.Models;
+using StockManagement.Shared.Models;
 
-namespace StockManagement.Repos
+namespace StockManagement.Shared.Repos
 {
     public class CsvLaptopRepositoryTests
     {

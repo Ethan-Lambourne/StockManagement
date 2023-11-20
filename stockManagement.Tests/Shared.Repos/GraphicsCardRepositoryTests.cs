@@ -1,10 +1,10 @@
-﻿using StockManagement.API.Models;
+﻿using StockManagement.Shared.Models;
 
-namespace StockManagement.Repos
+namespace StockManagement.Shared.Repos
 {
     public class GraphicsCardRepositoryTests
     {
-        private GraphicsCard item = new GraphicsCard(999, "test graphics card", "graphics card", 11, 22.22, 33, 44);
+        private readonly GraphicsCard item = new(999, "test graphics card", "graphics card", 11, 22.22, 33, 44);
 
         [Test]
         public void AddLaptopItemToGraphicsCardList()
@@ -52,7 +52,7 @@ namespace StockManagement.Repos
 
             Assert.Multiple(() =>
             {
-                Assert.That(check.Name, Is.EqualTo(testName));
+                Assert.That(check!.Name, Is.EqualTo(testName));
                 Assert.That(check.Stock, Is.EqualTo(testStock));
                 Assert.That(check.Price, Is.EqualTo(testPrice));
                 Assert.That(check.VRAM, Is.EqualTo(testVRAM));

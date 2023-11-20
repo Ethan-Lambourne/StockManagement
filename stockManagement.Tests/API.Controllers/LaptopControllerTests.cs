@@ -1,9 +1,8 @@
-﻿using CsvHelper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
 using StockManagement.API.Controllers;
-using StockManagement.API.Models;
-using StockManagement.Repos;
+using StockManagement.Shared.Models;
+using StockManagement.Shared.Repos;
 
 namespace stockManagement.API.Controllers
 {
@@ -18,20 +17,20 @@ namespace stockManagement.API.Controllers
             var laptopController = new LaptopController(mockCsvLaptopRepository.Object);
             mockCsvLaptopRepository.Setup(x => x.GetItem(item.ID)).Returns(item);
 
-            var check = laptopController.GetItem(item.ID);
+            var gottenLaptop = laptopController.GetItem(item.ID);
 
-            var checkResult = (ObjectResult)check!.Result!;
-            Laptop checkValue = (Laptop)checkResult!.Value!;
+            var gottenLaptopResult = gottenLaptop as ObjectResult;
+            Laptop gottenLaptopValue = (Laptop)gottenLaptopResult!.Value!;
             Assert.Multiple(() =>
             {
-                Assert.That(check, Is.Not.EqualTo(null));
-                Assert.That(check.Result, Is.InstanceOf(typeof(OkObjectResult)));
-                Assert.That(checkValue.Name, Is.EqualTo(item.Name));
-                Assert.That(checkValue.Stock, Is.EqualTo(item.Stock));
-                Assert.That(checkValue.Price, Is.EqualTo(item.Price));
-                Assert.That(checkValue.ScreenSize, Is.EqualTo(item.ScreenSize));
-                Assert.That(checkValue.RAM, Is.EqualTo(item.RAM));
-                Assert.That(checkValue.Storage, Is.EqualTo(item.Storage));
+                Assert.That(gottenLaptop, Is.Not.EqualTo(null));
+                Assert.That(gottenLaptopResult, Is.InstanceOf(typeof(OkObjectResult)));
+                Assert.That(gottenLaptopValue.Name, Is.EqualTo(item.Name));
+                Assert.That(gottenLaptopValue.Stock, Is.EqualTo(item.Stock));
+                Assert.That(gottenLaptopValue.Price, Is.EqualTo(item.Price));
+                Assert.That(gottenLaptopValue.ScreenSize, Is.EqualTo(item.ScreenSize));
+                Assert.That(gottenLaptopValue.RAM, Is.EqualTo(item.RAM));
+                Assert.That(gottenLaptopValue.Storage, Is.EqualTo(item.Storage));
             });
         }
 
@@ -41,9 +40,9 @@ namespace stockManagement.API.Controllers
             var mockCsvLaptopRepository = new Mock<IItemsRepository<Laptop>>();
             var laptopController = new LaptopController(mockCsvLaptopRepository.Object);
 
-            var check = laptopController.GetAllItems();
+            var allLaptops = laptopController.GetAllItems();
 
-            Assert.That(check.Result, Is.InstanceOf(typeof(OkObjectResult)));
+            Assert.That(allLaptops, Is.InstanceOf(typeof(OkObjectResult)));
         }
 
         [Test]
@@ -53,20 +52,19 @@ namespace stockManagement.API.Controllers
             var laptopController = new LaptopController(mockCsvLaptopRepository.Object);
             mockCsvLaptopRepository.Setup(x => x.AddItem(item)).Returns(item);
 
-            var check = laptopController.AddItem(item);
+            var addedLaptop = laptopController.AddItem(item);
 
-            var checkResult = (ObjectResult)check!.Result!;
-            Laptop checkValue = (Laptop)checkResult!.Value!;
+            var addedLaptopResult = addedLaptop as ObjectResult;
+            Laptop addedLaptopValue = (Laptop)addedLaptopResult!.Value!;
             Assert.Multiple(() =>
             {
-                Assert.That(check, Is.Not.EqualTo(null));
-                Assert.That(check.Result, Is.InstanceOf(typeof(OkObjectResult)));
-                Assert.That(checkValue.Name, Is.EqualTo(item.Name));
-                Assert.That(checkValue.Stock, Is.EqualTo(item.Stock));
-                Assert.That(checkValue.Price, Is.EqualTo(item.Price));
-                Assert.That(checkValue.ScreenSize, Is.EqualTo(item.ScreenSize));
-                Assert.That(checkValue.RAM, Is.EqualTo(item.RAM));
-                Assert.That(checkValue.Storage, Is.EqualTo(item.Storage));
+                Assert.That(addedLaptop, Is.Not.EqualTo(null));
+                Assert.That(addedLaptopValue.Name, Is.EqualTo(item.Name));
+                Assert.That(addedLaptopValue.Stock, Is.EqualTo(item.Stock));
+                Assert.That(addedLaptopValue.Price, Is.EqualTo(item.Price));
+                Assert.That(addedLaptopValue.ScreenSize, Is.EqualTo(item.ScreenSize));
+                Assert.That(addedLaptopValue.RAM, Is.EqualTo(item.RAM));
+                Assert.That(addedLaptopValue.Storage, Is.EqualTo(item.Storage));
             });
         }
 
@@ -81,20 +79,19 @@ namespace stockManagement.API.Controllers
             Laptop ExampleItem = new(item.ID, testName, item.Type, testStock, testPrice, testScreenSize, testRAM, testStorage);
             mockCsvLaptopRepository.Setup(x => x.EditItem(ExampleItem, item.ID)).Returns(ExampleItem);
 
-            var check = laptopController.EditItem(ExampleItem, item.ID);
+            var editedLaptop = laptopController.EditItem(ExampleItem, item.ID);
 
-            var checkResult = (ObjectResult)check!.Result!;
-            Laptop checkValue = (Laptop)checkResult!.Value!;
+            var editedLaptopResult = editedLaptop as ObjectResult;
+            Laptop editedLaptopValue = (Laptop)editedLaptopResult!.Value!;
             Assert.Multiple(() =>
             {
-                Assert.That(check, Is.Not.EqualTo(null));
-                Assert.That(check!.Result, Is.InstanceOf(typeof(OkObjectResult)));
-                Assert.That(checkValue.Name, Is.EqualTo(testName));
-                Assert.That(checkValue.Stock, Is.EqualTo(testStock));
-                Assert.That(checkValue.Price, Is.EqualTo(testPrice));
-                Assert.That(checkValue.ScreenSize, Is.EqualTo(testScreenSize));
-                Assert.That(checkValue.RAM, Is.EqualTo(testRAM));
-                Assert.That(checkValue.Storage, Is.EqualTo(testStorage));
+                Assert.That(editedLaptop, Is.Not.EqualTo(null));
+                Assert.That(editedLaptopValue.Name, Is.EqualTo(testName));
+                Assert.That(editedLaptopValue.Stock, Is.EqualTo(testStock));
+                Assert.That(editedLaptopValue.Price, Is.EqualTo(testPrice));
+                Assert.That(editedLaptopValue.ScreenSize, Is.EqualTo(testScreenSize));
+                Assert.That(editedLaptopValue.RAM, Is.EqualTo(testRAM));
+                Assert.That(editedLaptopValue.Storage, Is.EqualTo(testStorage));
             });
         }
 
@@ -105,9 +102,11 @@ namespace stockManagement.API.Controllers
             var laptopController = new LaptopController(mockCsvLaptopRepository.Object);
             mockCsvLaptopRepository.Setup(x => x.DeleteItem(item.ID)).Returns(true);
 
-            var check = laptopController.DeleteItem(item.ID);
+            var deletedLaptop = laptopController.DeleteItem(item.ID);
 
-            Assert.That(check.Result, Is.InstanceOf(typeof(OkObjectResult)));
+            var deletedLaptopResult = deletedLaptop as ObjectResult;
+            bool deletedLaptopValue = (bool)deletedLaptopResult!.Value!;
+            Assert.That(deletedLaptopValue, Is.EqualTo(true));
         }
     }
 }

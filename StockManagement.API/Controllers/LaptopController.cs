@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using StockManagement.API.Models;
-using StockManagement.Repos;
+﻿using log4net;
+using Microsoft.AspNetCore.Mvc;
+using StockManagement.Shared.Models;
+using StockManagement.Shared.Repos;
+using System.Reflection;
 
 namespace StockManagement.API.Controllers
 {
@@ -8,59 +10,73 @@ namespace StockManagement.API.Controllers
     [Route("API/Laptop")]
     public class LaptopController : ControllerBase, IItemsController<Laptop>
     {
-        private IItemsRepository<Laptop> _csvLaptopRepository;
+        private readonly ILog _log;
+        private readonly IItemsRepository<Laptop> _csvLaptopRepository;
 
         public LaptopController(IItemsRepository<Laptop> csvLaptopRepository)
         {
+            _log = LogManager.GetLogger(MethodBase.GetCurrentMethod()?.DeclaringType);
             _csvLaptopRepository = csvLaptopRepository;
         }
 
         [HttpPost("AddItem")]
-        public ActionResult<Laptop> AddItem(Laptop item)
+        public IActionResult AddItem(Laptop item)
         {
-            _csvLaptopRepository.AddItem(item);
-            return Ok(item);
-        }
-
-        [HttpDelete("DeleteItem")]
-        public ActionResult<bool> DeleteItem(int itemID)
-        {
-            bool check = _csvLaptopRepository.DeleteItem(itemID);
-            if (check)
+            Laptop check = _csvLaptopRepository.AddItem(item);
+            if (check == item)
             {
-                return Ok(check);
+                _log.Info($"Item {item} was added to LaptopData.csv");
+                return StatusCode(StatusCodes.Status201Created, item);
             }
             else
             {
-                return BadRequest(check);
+                return BadRequest();
+            }
+        }
+
+        [HttpDelete("DeleteItem")]
+        public IActionResult DeleteItem(int itemID)
+        {
+            bool deleted = _csvLaptopRepository.DeleteItem(itemID);
+            if (deleted)
+            {
+                _log.Info($"Item with ID {itemID} was deleted from LaptopData.csv");
+                return StatusCode(StatusCodes.Status204NoContent, deleted);
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status404NotFound, $"Item ID {itemID} does not exist"); ;
             }
         }
 
         [HttpPut("EditItem")]
-        public ActionResult<Laptop>? EditItem(Laptop ExampleItem, int itemID)
+        public IActionResult EditItem(Laptop exampleItem, int itemID)
         {
-            var check = _csvLaptopRepository.EditItem(ExampleItem, itemID);
-            if (check != null)
+            var editedItem = _csvLaptopRepository.EditItem(exampleItem, itemID);
+            if (editedItem != null)
             {
-                return Ok(check);
+                _log.Info($"Item with ID {itemID} was edited within LaptopData.csv");
+                return StatusCode(StatusCodes.Status201Created, editedItem); ;
             }
-            return BadRequest(check);
+            return StatusCode(StatusCodes.Status404NotFound, $"Item ID {itemID} does not exist");
         }
 
         [HttpGet("GetAllItems")]
-        public ActionResult<Laptop> GetAllItems()
+        public IActionResult GetAllItems()
         {
+            _log.Info($"All items retrieved from LaptopData.csv");
             return Ok(_csvLaptopRepository.GetAllItems());
         }
 
         [HttpGet("GetItemById")]
-        public ActionResult<Laptop>? GetItem(int itemID)
+        public IActionResult GetItem(int itemID)
         {
             var item = _csvLaptopRepository.GetItem(itemID);
             if (item == null)
             {
-                return NotFound(item);
+                return StatusCode(StatusCodes.Status404NotFound, $"Item ID {itemID} does not exist");
             }
+            _log.Info($"{item} was retrieved from LaptopData.csv");
             return Ok(item);
         }
     }

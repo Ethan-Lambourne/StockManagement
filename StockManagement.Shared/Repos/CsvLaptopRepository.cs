@@ -1,9 +1,9 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
-using StockManagement.API.Models;
+using StockManagement.Shared.Models;
 using System.Globalization;
 
-namespace StockManagement.Repos
+namespace StockManagement.Shared.Repos
 {
     public class CsvLaptopRepository : IItemsRepository<Laptop>
     {

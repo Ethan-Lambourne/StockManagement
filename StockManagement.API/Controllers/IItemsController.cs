@@ -4,14 +4,14 @@ namespace StockManagement.API.Controllers
 {
     public interface IItemsController<T>
     {
-        ActionResult<T>? GetItem(int itemID);
+        IActionResult GetItem(int itemID);
 
-        ActionResult<T> GetAllItems();
+        IActionResult GetAllItems();
 
-        ActionResult<T> AddItem(T item);
+        IActionResult AddItem(T item);
 
-        ActionResult<bool> DeleteItem(int itemID);
+        IActionResult DeleteItem(int itemID);
 
-        ActionResult<T>? EditItem(T ExampleItem, int itemID);
+        IActionResult EditItem(T ExampleItem, int itemID);
     }
 }

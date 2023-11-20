@@ -1,11 +1,11 @@
-﻿using StockManagement.API.Models;
+﻿using StockManagement.Shared.Models;
 using Moq;
 
-namespace StockManagement.Repos
+namespace StockManagement.Shared.Repos
 {
     public class LaptopRepositoryTests
     {
-        private Laptop item = new Laptop(999, "test laptop", "laptop", 11, 22.22, 33.33, 44, 55);
+        private readonly Laptop item = new(999, "test laptop", "laptop", 11, 22.22, 33.33, 44, 55);
 
         [Test]
         public void AddLaptopItemToLaptopList()
@@ -53,7 +53,7 @@ namespace StockManagement.Repos
 
             Assert.Multiple(() =>
             {
-                Assert.That(check.Name, Is.EqualTo(testName));
+                Assert.That(check!.Name, Is.EqualTo(testName));
                 Assert.That(check.Stock, Is.EqualTo(testStock));
                 Assert.That(check.Price, Is.EqualTo(testPrice));
                 Assert.That(check.ScreenSize, Is.EqualTo(testScreenSize));

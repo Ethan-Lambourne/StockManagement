@@ -1,4 +1,4 @@
-﻿namespace StockManagement.API.Models
+﻿namespace StockManagement.Shared.Models
 {
     public abstract class Items
     {
