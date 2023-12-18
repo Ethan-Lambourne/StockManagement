@@ -1,4 +1,4 @@
-﻿namespace StockManagement.Models
+﻿namespace StockManagement.Shared.Models
 {
     public class Laptop : Items
     {

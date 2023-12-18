@@ -1,13 +1,13 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
-using StockManagement.Models;
+using StockManagement.Shared.Models;
 using System.Globalization;
 
-namespace StockManagement.Repos
+namespace StockManagement.Shared.Repos
 {
     public class CsvLaptopRepository : IItemsRepository<Laptop>
     {
-        private readonly string laptopFilePath = "C:\\dev\\stockManagement\\stockManagement\\ItemStorage\\LaptopData.csv";
+        private readonly string laptopFilePath = "C:\\dev\\stockManagement\\stockManagement.Shared\\ItemStorage\\LaptopData.csv";
         private readonly CsvConfiguration csvConfiguration = new(CultureInfo.InvariantCulture);
 
         public Laptop AddItem(Laptop item)

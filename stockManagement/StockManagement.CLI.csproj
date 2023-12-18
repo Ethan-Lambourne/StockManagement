@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ItemStorage\" />
+    <ProjectReference Include="..\StockManagement.Shared\StockManagement.Shared.csproj" />
   </ItemGroup>
 
 </Project>

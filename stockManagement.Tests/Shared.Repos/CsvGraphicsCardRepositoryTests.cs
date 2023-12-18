@@ -1,6 +1,6 @@
-﻿using StockManagement.Models;
+﻿using StockManagement.Shared.Models;
 
-namespace StockManagement.Repos
+namespace StockManagement.Shared.Repos
 {
     public class CsvGraphicsCardRepositoryTests
     {

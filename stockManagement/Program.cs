@@ -1,6 +1,6 @@
 ﻿using StockManagement.Details;
-using StockManagement.Repos;
-using StockManagement.Models;
+using StockManagement.Shared.Repos;
+using StockManagement.Shared.Models;
 
 var laptop = new CsvLaptopRepository();
 var graphicsCard = new CsvGraphicsCardRepository();

@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using System.Runtime.Intrinsics.Arm;
-
-namespace StockManagement.Models
+﻿namespace StockManagement.Shared.Models
 {
     public class GraphicsCard : Items
     {

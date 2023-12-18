@@ -1,6 +1,6 @@
 ﻿using Moq;
-using StockManagement.Models;
-using StockManagement.Repos;
+using StockManagement.Shared.Models;
+using StockManagement.Shared.Repos;
 
 namespace StockManagement.Details
 {

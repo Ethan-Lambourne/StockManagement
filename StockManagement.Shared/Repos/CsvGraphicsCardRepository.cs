@@ -1,13 +1,13 @@
 ﻿using CsvHelper.Configuration;
 using CsvHelper;
-using StockManagement.Models;
 using System.Globalization;
+using StockManagement.Shared.Models;
 
-namespace StockManagement.Repos
+namespace StockManagement.Shared.Repos
 {
     public class CsvGraphicsCardRepository : IItemsRepository<GraphicsCard>
     {
-        private readonly string graphicsCardFilePath = "C:\\dev\\stockManagement\\stockManagement\\ItemStorage\\GraphicsCardData.csv";
+        private readonly string graphicsCardFilePath = "C:\\dev\\stockManagement\\stockManagement.Shared\\ItemStorage\\GraphicsCardData.csv";
         private readonly CsvConfiguration csvConfiguration = new(CultureInfo.InvariantCulture);
 
         public GraphicsCard AddItem(GraphicsCard item)
