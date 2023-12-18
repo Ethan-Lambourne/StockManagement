@@ -26,6 +26,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\StockManagement.API\StockManagement.API.csproj" />
+    <ProjectReference Include="..\StockManagement.MVC\StockManagement.MVC.csproj" />
+    <ProjectReference Include="..\StockManagement.Shared\StockManagement.Shared.csproj" />
     <ProjectReference Include="..\stockManagement\StockManagement.CLI.csproj" />
   </ItemGroup>
 

@@ -1,0 +1,56 @@
+﻿@model StockManagement.MVC.Models.EditLaptopViewModel
+
+@{
+    ViewData["Title"] = "EditLaptopView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit Laptop</h1>
+
+<p>Edit "@Html.Raw(Model.Name)" With ID: @Html.Raw(Model.ID)</p>
+<hr />
+<div class="row">
+    <div>
+        <form asp-action="EditLaptopView">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="col-sm-4 m-3">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="col-sm-4 m-3">
+                <label asp-for="Stock" class="control-label"></label>
+                <input asp-for="Stock" class="form-control" />
+                <span asp-validation-for="Stock" class="text-danger"></span>
+            </div>
+            <div class="col-sm-4 m-3">
+                <label asp-for="Price" class="control-label">Price (£)</label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="col-sm-4 m-3">
+                <label asp-for="ScreenSize" class="control-label">Screen Size (Inches)</label>
+                <input asp-for="ScreenSize" class="form-control" />
+                <span asp-validation-for="ScreenSize" class="text-danger"></span>
+            </div>
+            <div class="col-sm-4 m-3">
+                <label asp-for="RAM" class="control-label">RAM (GB)</label>
+                <input asp-for="RAM" class="form-control" />
+                <span asp-validation-for="RAM" class="text-danger"></span>
+            </div>
+            <div class="col-sm-4 m-3">
+                <label asp-for="Storage" class="control-label">Storage (GB)</label>
+                <input asp-for="Storage" class="form-control" />
+                <span asp-validation-for="Storage" class="text-danger"></span>
+            </div>
+            <div class="col-sm-4 m-3">
+                <input type="submit" value="Save Changes" class="btn btn-outline-primary"
+                       asp-controller="EditLaptop" asp-action="EditLaptop"
+                       asp-route-ID="@Model.ID" asp-route-Name="Name" asp-route-Type="@Model.Type"
+                       asp-route-Stock="Stock" asp-route-Price="Price" asp-route-ScreenSize="ScreenSize" 
+                       asp-route-RAM="RAM" asp-route-Storage="Storage" />
+            </div>
+        </form>
+    </div>
+</div>
+

@@ -1,0 +1,76 @@
+﻿@model StockManagement.MVC.Models.DeleteItemViewModel
+
+@{
+    ViewData["Title"] = "DeleteItemView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="text-center">
+    <h1>Delete Item</h1>
+
+    <p>Are you sure you want to delete this item?</p>
+    <div>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th scope="row">ID</th>
+                    <td>@Html.DisplayFor(model => model.ID)</td>
+                </tr>
+                <tr>
+                    <th scope="row">Name</th>
+                    <td>@Html.DisplayFor(model => model.Name)</td>
+                </tr>
+                <tr>
+                    <th scope="row">Type</th>
+                    <td>@Html.DisplayFor(model => model.Type)</td>
+                </tr>
+                <tr>
+                    <th scope="row">Stock</th>
+                    <td>@Html.DisplayFor(model => model.Stock)</td>
+                </tr>
+                <tr>
+                    <th scope="row">Price</th>
+                    <td>£@Html.DisplayFor(model => model.Price)</td>
+                </tr>
+                @{
+                    if (Model.Type == "laptop")
+                    {
+                        <tr>
+                            <th scope="row">Screen Size</th>
+                            <td>@Html.DisplayFor(model => model.ScreenSize) Inches</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">RAM</th>
+                            <td>@Html.DisplayFor(model => model.RAM) GB</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Storage</th>
+                            <td>@Html.DisplayFor(model => model.Storage) GB</td>
+                        </tr>
+                    }
+                    if (Model.Type == "graphics card")
+                    {
+                        <tr>
+                            <th scope="row">VRAM</th>
+                            <td>@Html.DisplayFor(model => model.VRAM) GB</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Cuda Cores</th>
+                            <td>@Html.DisplayFor(model => model.CudaCores)</td>
+                        </tr>
+                    }
+                }
+                
+            </tbody>
+        </table>
+
+        <div>
+            
+            <a class="btn btn-danger m-3" asp-controller="DeleteItem" asp-action="DeleteItem" asp-route-itemId="@Model.ID" >Yes, Delete</a>
+
+            <a class="btn btn-outline-success m-3" asp-controller="Home" asp-action="Index">No, Go Back</a>
+
+        </div>
+        
+    </div>
+</div>
+
