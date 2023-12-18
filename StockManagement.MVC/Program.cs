@@ -9,7 +9,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IItemsRepository<Laptop>, CsvLaptopRepository>();
 builder.Services.AddScoped<IItemsRepository<GraphicsCard>, CsvGraphicsCardRepository>();
-builder.Services.AddScoped<IGenerateID>();
+builder.Services.AddScoped<IGenerateID, GenerateItemID>();
 
 var app = builder.Build();
 
