@@ -1,6 +1,7 @@
 ﻿using StockManagement.Details;
 using StockManagement.Shared.Repos;
 using StockManagement.Shared.Models;
+using StockManagement.Shared.GenerateID;
 
 var laptop = new CsvLaptopRepository();
 var graphicsCard = new CsvGraphicsCardRepository();

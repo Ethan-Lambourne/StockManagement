@@ -1,8 +1,9 @@
 ﻿using Moq;
 using StockManagement.Shared.Models;
 using StockManagement.Shared.Repos;
+using StockManagement.Shared.GenerateID;
 
-namespace StockManagement.Details
+namespace stockManagement.CLI.Details
 {
     public class GenerateItemIDTests
     {

@@ -24,7 +24,7 @@ namespace stockManagement.API.Controllers
             GraphicsCard gottenGraphicsCardValue = (GraphicsCard)gottenGraphicsCardResult!.Value!;
             Assert.Multiple(() =>
             {
-                Assert.That(gottenGraphicsCard, Is.Not.EqualTo(null));
+                Assert.That(gottenGraphicsCard, Is.Not.Null);
                 Assert.That(gottenGraphicsCardValue.Name, Is.EqualTo(item.Name));
                 Assert.That(gottenGraphicsCardValue.Stock, Is.EqualTo(item.Stock));
                 Assert.That(gottenGraphicsCardValue.Price, Is.EqualTo(item.Price));
@@ -58,7 +58,7 @@ namespace stockManagement.API.Controllers
             GraphicsCard addedGraphicsCardValue = (GraphicsCard)addedGraphicsCardResult!.Value!;
             Assert.Multiple(() =>
             {
-                Assert.That(addedGraphicsCard, Is.Not.EqualTo(null));
+                Assert.That(addedGraphicsCard, Is.Not.Null);
                 Assert.That(addedGraphicsCardResult.StatusCode, Is.EqualTo(StatusCodes.Status201Created));
                 Assert.That(addedGraphicsCardValue.Name, Is.EqualTo(item.Name));
                 Assert.That(addedGraphicsCardValue.Stock, Is.EqualTo(item.Stock));
@@ -86,7 +86,7 @@ namespace stockManagement.API.Controllers
             GraphicsCard editedGraphicsCardValue = (GraphicsCard)editedGraphicsCardResult!.Value!;
             Assert.Multiple(() =>
             {
-                Assert.That(editedGraphicsCard, Is.Not.EqualTo(null));
+                Assert.That(editedGraphicsCard, Is.Not.Null);
                 Assert.That(editedGraphicsCardResult.StatusCode, Is.EqualTo(StatusCodes.Status201Created));
                 Assert.That(editedGraphicsCardValue.Name, Is.EqualTo(testName));
                 Assert.That(editedGraphicsCardValue.Stock, Is.EqualTo(testStock));
