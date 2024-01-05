@@ -11,51 +11,71 @@
     <div>
         <table class="table">
             <tbody>
-                <tr>
-                    <th scope="row">ID</th>
-                    <td>@Html.DisplayFor(model => model.ID)</td>
-                </tr>
-                <tr>
-                    <th scope="row">Name</th>
-                    <td>@Html.DisplayFor(model => model.Name)</td>
-                </tr>
-                <tr>
-                    <th scope="row">Type</th>
-                    <td>@Html.DisplayFor(model => model.Type)</td>
-                </tr>
-                <tr>
-                    <th scope="row">Stock</th>
-                    <td>@Html.DisplayFor(model => model.Stock)</td>
-                </tr>
-                <tr>
-                    <th scope="row">Price</th>
-                    <td>£@Html.DisplayFor(model => model.Price)</td>
-                </tr>
                 @{
-                    if (Model.Type == "laptop")
+                    if (Model.Laptop != null)
                     {
                         <tr>
+                            <th scope="row">ID</th>
+                            <td>@Html.DisplayFor(model => model.Laptop!.ID)</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Name</th>
+                            <td>@Html.DisplayFor(model => model.Laptop!.Name)</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Type</th>
+                            <td>@Html.DisplayFor(model => model.Laptop!.Type)</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Stock</th>
+                            <td>@Html.DisplayFor(model => model.Laptop!.Stock)</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Price</th>
+                            <td>£@Html.DisplayFor(model => model.Laptop!.Price)</td>
+                        </tr>
+                        <tr>
                             <th scope="row">Screen Size</th>
-                            <td>@Html.DisplayFor(model => model.ScreenSize) Inches</td>
+                            <td>@Html.DisplayFor(model => model.Laptop!.ScreenSize) Inches</td>
                         </tr>
                         <tr>
                             <th scope="row">RAM</th>
-                            <td>@Html.DisplayFor(model => model.RAM) GB</td>
+                            <td>@Html.DisplayFor(model => model.Laptop!.RAM) GB</td>
                         </tr>
                         <tr>
                             <th scope="row">Storage</th>
-                            <td>@Html.DisplayFor(model => model.Storage) GB</td>
+                            <td>@Html.DisplayFor(model => model.Laptop!.Storage) GB</td>
                         </tr>
                     }
-                    if (Model.Type == "graphics card")
+                    if (Model.GraphicsCard != null)
                     {
                         <tr>
+                            <th scope="row">ID</th>
+                            <td>@Html.DisplayFor(model => model.GraphicsCard!.ID)</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Name</th>
+                            <td>@Html.DisplayFor(model => model.GraphicsCard!.Name)</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Type</th>
+                            <td>@Html.DisplayFor(model => model.GraphicsCard!.Type)</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Stock</th>
+                            <td>@Html.DisplayFor(model => model.GraphicsCard!.Stock)</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Price</th>
+                            <td>£@Html.DisplayFor(model => model.GraphicsCard!.Price)</td>
+                        </tr>
+                        <tr>
                             <th scope="row">VRAM</th>
-                            <td>@Html.DisplayFor(model => model.VRAM) GB</td>
+                            <td>@Html.DisplayFor(model => model.GraphicsCard!.VRAM) GB</td>
                         </tr>
                         <tr>
                             <th scope="row">Cuda Cores</th>
-                            <td>@Html.DisplayFor(model => model.CudaCores)</td>
+                            <td>@Html.DisplayFor(model => model.GraphicsCard!.CudaCores)</td>
                         </tr>
                     }
                 }
@@ -64,8 +84,14 @@
         </table>
 
         <div>
-            
-            <a class="btn btn-danger m-3" asp-controller="DeleteItem" asp-action="DeleteItem" asp-route-itemId="@Model.ID" >Yes, Delete</a>
+            @if (Model.Laptop != null)
+            {
+                <a class="btn btn-danger m-3" asp-controller="DeleteItem" asp-action="DeleteItem" asp-route-itemId="@Model.Laptop.ID">Yes, Delete</a>
+            }
+            @if (Model.GraphicsCard != null)
+            {
+                <a class="btn btn-danger m-3" asp-controller="DeleteItem" asp-action="DeleteItem" asp-route-itemId="@Model.GraphicsCard.ID">Yes, Delete</a>
+            }
 
             <a class="btn btn-outline-success m-3" asp-controller="Home" asp-action="Index">No, Go Back</a>
 

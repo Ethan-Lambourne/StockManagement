@@ -1,4 +1,6 @@
-﻿namespace StockManagement.Shared.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace StockManagement.Shared.Models
 {
     public class GraphicsCard : Items
     {
@@ -11,6 +13,7 @@
 
         public int VRAM { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:#,##0}")]
         public int CudaCores { get; set; }
 
         public override string ToString()

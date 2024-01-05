@@ -23,14 +23,12 @@ namespace StockManagement.MVC.Controllers
             Laptop? laptop = _csvLaptopRepository.GetItem(itemId);
             if (graphicsCard != null)
             {
-                DeleteItemViewModel deleteItemViewModel = new(graphicsCard.ID, graphicsCard.Name, graphicsCard.Type, graphicsCard.Stock, graphicsCard.Price,
-                    0, 0, 0, graphicsCard.VRAM, graphicsCard.CudaCores);
+                DeleteItemViewModel deleteItemViewModel = new(null, graphicsCard);
                 return View(deleteItemViewModel);
             }
             else if (laptop != null)
             {
-                DeleteItemViewModel deleteItemViewModel = new(laptop.ID, laptop.Name, laptop.Type, laptop.Stock, laptop.Price, laptop.ScreenSize,
-                    laptop.RAM, laptop.Storage, 0, 0);
+                DeleteItemViewModel deleteItemViewModel = new(laptop, null);
                 return View(deleteItemViewModel);
             }
             else
@@ -45,8 +43,8 @@ namespace StockManagement.MVC.Controllers
             Laptop? laptop = _csvLaptopRepository.GetItem(itemId);
             if (graphicsCard != null)
             {
-                bool graphicsCardDeleted = _csvGraphicsCardRepository.DeleteItem(itemId);
-                if (graphicsCardDeleted)
+                var isGraphicsCardDeleted = _csvGraphicsCardRepository.DeleteItem(itemId);
+                if (isGraphicsCardDeleted)
                 {
                     return RedirectToAction("Index", "Home", new { itemRecentlyAdded = false, itemRecentlyEdited = false, itemRecentlyDeleted = true });
                 }
@@ -57,8 +55,8 @@ namespace StockManagement.MVC.Controllers
             }
             else if (laptop != null)
             {
-                bool laptopDeleted = _csvLaptopRepository.DeleteItem(itemId);
-                if (laptopDeleted)
+                var isLaptopDeleted = _csvLaptopRepository.DeleteItem(itemId);
+                if (isLaptopDeleted)
                 {
                     return RedirectToAction("Index", "Home", new { itemRecentlyAdded = false, itemRecentlyEdited = false, itemRecentlyDeleted = true });
                 }
