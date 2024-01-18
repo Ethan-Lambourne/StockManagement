@@ -1,3 +1,4 @@
+using StockManagement.Shared.DataManagement;
 using StockManagement.Shared.GenerateID;
 using StockManagement.Shared.Models;
 using StockManagement.Shared.Repos;
@@ -7,9 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddScoped<IItemsRepository<Laptop>, CsvLaptopRepository>();
-builder.Services.AddScoped<IItemsRepository<GraphicsCard>, CsvGraphicsCardRepository>();
+builder.Services.AddScoped<IItemsRepository<Laptop>, LaptopDbRepository>();
+builder.Services.AddScoped<IItemsRepository<GraphicsCard>, GraphicsCardDbRepository>();
 builder.Services.AddScoped<IGenerateID, GenerateItemID>();
+builder.Services.AddDbContext<ItemContext>();
 
 var app = builder.Build();
 

@@ -7,20 +7,20 @@ namespace StockManagement.MVC.Controllers
 {
     public class DeleteItemController : Controller
     {
-        private readonly IItemsRepository<Laptop> _csvLaptopRepository;
-        private readonly IItemsRepository<GraphicsCard> _csvGraphicsCardRepository;
+        private readonly IItemsRepository<Laptop> _laptopRepository;
+        private readonly IItemsRepository<GraphicsCard> _graphicsCardRepository;
 
-        public DeleteItemController(IItemsRepository<Laptop> csvLaptopRepository, IItemsRepository<GraphicsCard> csvGraphicsCardRepository)
+        public DeleteItemController(IItemsRepository<Laptop> laptopRepository, IItemsRepository<GraphicsCard> graphicsCardRepository)
         {
-            _csvLaptopRepository = csvLaptopRepository;
-            _csvGraphicsCardRepository = csvGraphicsCardRepository;
+            _laptopRepository = laptopRepository;
+            _graphicsCardRepository = graphicsCardRepository;
         }
 
         [Route("/DeleteItemConfirmation/{itemId}")]
         public IActionResult DeleteItemView(int itemId)
         {
-            GraphicsCard? graphicsCard = _csvGraphicsCardRepository.GetItem(itemId);
-            Laptop? laptop = _csvLaptopRepository.GetItem(itemId);
+            GraphicsCard? graphicsCard = _graphicsCardRepository.GetItem(itemId);
+            Laptop? laptop = _laptopRepository.GetItem(itemId);
             if (graphicsCard != null)
             {
                 DeleteItemViewModel deleteItemViewModel = new(null, graphicsCard);
@@ -39,11 +39,11 @@ namespace StockManagement.MVC.Controllers
 
         public IActionResult DeleteItem(int itemId)
         {
-            GraphicsCard? graphicsCard = _csvGraphicsCardRepository.GetItem(itemId);
-            Laptop? laptop = _csvLaptopRepository.GetItem(itemId);
+            GraphicsCard? graphicsCard = _graphicsCardRepository.GetItem(itemId);
+            Laptop? laptop = _laptopRepository.GetItem(itemId);
             if (graphicsCard != null)
             {
-                var isGraphicsCardDeleted = _csvGraphicsCardRepository.DeleteItem(itemId);
+                var isGraphicsCardDeleted = _graphicsCardRepository.DeleteItem(itemId);
                 if (isGraphicsCardDeleted)
                 {
                     return RedirectToAction("Index", "Home", new { itemRecentlyAdded = false, itemRecentlyEdited = false, itemRecentlyDeleted = true });
@@ -55,7 +55,7 @@ namespace StockManagement.MVC.Controllers
             }
             else if (laptop != null)
             {
-                var isLaptopDeleted = _csvLaptopRepository.DeleteItem(itemId);
+                var isLaptopDeleted = _laptopRepository.DeleteItem(itemId);
                 if (isLaptopDeleted)
                 {
                     return RedirectToAction("Index", "Home", new { itemRecentlyAdded = false, itemRecentlyEdited = false, itemRecentlyDeleted = true });

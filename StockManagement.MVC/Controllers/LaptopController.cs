@@ -8,18 +8,18 @@ namespace StockManagement.MVC.Controllers
     public class LaptopController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IItemsRepository<Laptop> _csvLaptopRepository;
+        private readonly IItemsRepository<Laptop> _laptopRepository;
 
-        public LaptopController(ILogger<HomeController> logger, IItemsRepository<Laptop> csvLaptopRepository)
+        public LaptopController(ILogger<HomeController> logger, IItemsRepository<Laptop> laptopRepository)
         {
             _logger = logger;
-            _csvLaptopRepository = csvLaptopRepository;
+            _laptopRepository = laptopRepository;
         }
 
         [Route("/LaptopDetails/{laptopId}")]
         public IActionResult LaptopView(int laptopId)
         {
-            Laptop? laptop = _csvLaptopRepository.GetItem(laptopId);
+            Laptop? laptop = _laptopRepository.GetItem(laptopId);
             if (laptop != null)
             {
                 LaptopViewModel laptopViewModel = new(laptop.ID, laptop.Name, laptop.Type, laptop.Stock,

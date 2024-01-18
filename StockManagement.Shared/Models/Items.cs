@@ -13,11 +13,14 @@ namespace StockManagement.Shared.Models
             this.Price = Price;
         }
 
-        public int ID { get; }
+        [Key]
+        public int PK { get; set; }
+
+        public int ID { get; set; }
 
         public string Name { get; set; }
 
-        public string Type { get; }
+        public string Type { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:#,##0}")]
         public int? Stock { get; set; }
