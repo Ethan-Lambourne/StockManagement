@@ -1,0 +1,55 @@
+﻿@using StockManagement.Shared.Models;
+@model LaptopViewModel;
+@{
+    ViewData["Title"] = "LaptopView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@Html.Raw(Model.Name)</h1>
+<div>
+    <div>
+        <img src="/ItemImages/DefaultLaptopImage.png" class="img-fluid col-4" alt="Laptop Default">
+    </div>
+    <div>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th scope="row">ID</th>
+                    <td>@Html.DisplayFor(model => model.ID)</td>
+                </tr>
+                <tr>
+                    <th scope="row">Name</th>
+                    <td>@Html.DisplayFor(model => model.Name)</td>
+                </tr>
+                <tr>
+                    <th scope="row">Type</th>
+                    <td>@Html.DisplayFor(model => model.Type)</td>
+                </tr>
+                <tr>
+                    <th scope="row">Stock</th>
+                    <td>@Html.DisplayFor(model => model.Stock)</td>
+                </tr>
+                <tr>
+                    <th scope="row">Price</th>
+                    <td>£@Html.DisplayFor(model => model.Price)</td>
+                </tr>
+                <tr>
+                    <th scope="row">Screen Size</th>
+                    <td>@Html.DisplayFor(model => model.ScreenSize) Inches</td>
+                </tr>
+                <tr>
+                    <th scope="row">RAM</th>
+                    <td>@Html.DisplayFor(model => model.RAM) GB</td>
+                </tr>
+                <tr>
+                    <th scope="row">Storage</th>
+                    <td>@Html.DisplayFor(model => model.Storage) GB</td>
+                </tr>
+            </tbody>
+        </table>
+        <div>
+            <a class="btn btn-outline-danger" asp-action="DeleteItemView" asp-controller="DeleteItem" asp-route-itemId="@Model.ID">Delete</a>
+            <a class="btn btn-outline-warning" asp-action="EditLaptopView" asp-controller="EditLaptop" asp-route-laptopId="@Model.ID">Edit</a>
+        </div>
+    </div>
+</div>

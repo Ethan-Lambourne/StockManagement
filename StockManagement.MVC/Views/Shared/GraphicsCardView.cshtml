@@ -1,0 +1,51 @@
+﻿@using StockManagement.Shared.Models;
+@model GraphicsCardViewModel;
+@{
+    ViewData["Title"] = "GraphicsCardView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@Html.Raw(Model.Name)</h1>
+<div>
+    <div>
+        <img src="/ItemImages/DefaultGraphicsCardImage.png" class="img-fluid col-4" alt="Graphics Card Default">
+    </div>
+    <div>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th scope="row">ID</th>
+                    <td>@Html.DisplayFor(model => model.ID)</td>
+                </tr>
+                <tr>
+                    <th scope="row">Name</th>
+                    <td>@Html.DisplayFor(model => model.Name)</td>
+                </tr>
+                <tr>
+                    <th scope="row">Type</th>
+                    <td>@Html.DisplayFor(model => model.Type)</td>
+                </tr>
+                <tr>
+                    <th scope="row">Stock</th>
+                    <td>@Html.DisplayFor(model => model.Stock)</td>
+                </tr>
+                <tr>
+                    <th scope="row">Price</th>
+                    <td>£@Html.DisplayFor(model => model.Price)</td>
+                </tr>
+                <tr>
+                    <th scope="row">VRAM</th>
+                    <td>@Html.DisplayFor(model => model.VRAM) GB</td>
+                </tr>
+                <tr>
+                    <th scope="row">Cuda Cores</th>
+                    <td>@Html.DisplayFor(model => model.CudaCores)</td>
+                </tr>
+            </tbody>
+        </table>
+        <div>
+            <a class="btn btn-outline-danger" asp-action="DeleteItemView" asp-controller="DeleteItem" asp-route-itemId="@Model.ID">Delete</a>
+            <a class="btn btn-outline-warning" asp-action="EditGraphicsCardView" asp-controller="EditGraphicsCard" asp-route-graphicsCardId="@Model.ID">Edit</a>
+        </div>
+    </div>
+</div>

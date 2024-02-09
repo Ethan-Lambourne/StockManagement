@@ -1,4 +1,6 @@
-﻿namespace StockManagement.Shared.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace StockManagement.Shared.Models
 {
     public abstract class Items
     {
@@ -17,8 +19,10 @@
 
         public string Type { get; }
 
+        [DisplayFormat(DataFormatString = "{0:#,##0}")]
         public int? Stock { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:#,##0.##}")]
         public double? Price { get; set; }
     }
 }

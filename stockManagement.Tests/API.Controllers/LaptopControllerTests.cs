@@ -24,7 +24,7 @@ namespace stockManagement.API.Controllers
             Laptop gottenLaptopValue = (Laptop)gottenLaptopResult!.Value!;
             Assert.Multiple(() =>
             {
-                Assert.That(gottenLaptop, Is.Not.EqualTo(null));
+                Assert.That(gottenLaptop, Is.Not.Null);
                 Assert.That(gottenLaptopResult, Is.InstanceOf(typeof(OkObjectResult)));
                 Assert.That(gottenLaptopValue.Name, Is.EqualTo(item.Name));
                 Assert.That(gottenLaptopValue.Stock, Is.EqualTo(item.Stock));
@@ -60,7 +60,7 @@ namespace stockManagement.API.Controllers
             Laptop addedLaptopValue = (Laptop)addedLaptopResult!.Value!;
             Assert.Multiple(() =>
             {
-                Assert.That(addedLaptop, Is.Not.EqualTo(null));
+                Assert.That(addedLaptop, Is.Not.Null);
                 Assert.That(addedLaptopResult.StatusCode, Is.EqualTo(StatusCodes.Status201Created));
                 Assert.That(addedLaptopValue.Name, Is.EqualTo(item.Name));
                 Assert.That(addedLaptopValue.Stock, Is.EqualTo(item.Stock));
@@ -89,7 +89,7 @@ namespace stockManagement.API.Controllers
             Laptop editedLaptopValue = (Laptop)editedLaptopResult!.Value!;
             Assert.Multiple(() =>
             {
-                Assert.That(editedLaptop, Is.Not.EqualTo(null));
+                Assert.That(editedLaptop, Is.Not.Null);
                 Assert.That(editedLaptopResult.StatusCode, Is.EqualTo(StatusCodes.Status201Created));
                 Assert.That(editedLaptopValue.Name, Is.EqualTo(testName));
                 Assert.That(editedLaptopValue.Stock, Is.EqualTo(testStock));

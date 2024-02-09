@@ -1,0 +1,76 @@
+﻿@using StockManagement.MVC.Controllers;
+@using StockManagement.MVC.Models;
+@using StockManagement.Shared.Models;
+@using StockManagement.Shared.Repos;
+@model HomeViewModel;
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    @{
+        if (Model.itemRecentlyAdded)
+        {
+            <div class="alert alert-success">
+                Item Added
+            </div>
+        }
+        if (Model.itemRecentlyEdited)
+        {
+            <div class="alert alert-warning">
+                Item Edited
+            </div>
+        }
+        if (Model.itemRecentlyDeleted)
+        {
+            <div class="alert alert-danger">
+                Item Deleted
+            </div>
+        }
+    }
+    <h1 class="display-4">Inventory</h1>
+    <p>Search through the store inventory and select items.</p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Item Type</th>
+                <th>Stock</th>
+                <th>Price</th>
+                <th><a class="btn btn-outline-success" asp-action="AddItemView" asp-controller="AddItem">Add New Item</a></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                List<Items> itemList = new();
+                itemList.AddRange(Model.LaptopList);
+                itemList.AddRange(Model.GraphicsCardList);
+                var sortedItemList = itemList.OrderBy(item => item.ID).ToList();
+                foreach (var item in sortedItemList)
+                {
+                    <tr>
+                        <th scope="row">@Html.Raw(item.ID)</th>
+                        <td>@Html.Raw(item.Name)</td>
+                        <td>@Html.Raw(item.Type)</td>
+                        <td>@Html.Raw(item.Stock)</td>
+                        <td>£@string.Format("{0:#,##0.##}", item.Price)</td>
+                        @{
+                            if (item.Type == "laptop")
+                            {
+                                <td><a class="btn btn-outline-info" asp-action="LaptopView" asp-controller="Laptop" asp-route-laptopId="@item.ID">Info</a></td>
+                            }
+                            if (item.Type == "graphics card")
+                            {
+                                <td><a class="btn btn-outline-info" asp-action="GraphicsCardView" asp-controller="GraphicsCard" asp-route-graphicsCardId="@item.ID">Info</a></td>
+                            }
+                        }
+                    </tr>
+                }
+            }
+        </tbody>
+        
+    </table>
+
+</div>

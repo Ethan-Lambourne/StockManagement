@@ -1,0 +1,79 @@
+﻿@model StockManagement.MVC.Models.AddItemViewModel
+
+@{
+    ViewData["Title"] = "AddItemView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Add Item</h1>
+
+<p>Add an Item To The Inventory</p>
+<hr />
+<div class="row">
+    <div>
+        <form asp-action="AddItem">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="col-sm-4 m-3">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="col-sm-4 m-3">
+                <label asp-for="Type" class="control-label"></label>
+                <select asp-for="Type" class="form-select" id="selectType" onchange="changeAddItemForm()">
+                    <option value="">Select Type...</option>
+                    <option value="laptop">Laptop</option>
+                    <option value="graphics card" asp-for="Type">Graphics Card</option>
+                </select>
+            </div>
+            <div class="col-sm-4 m-3">
+                <label asp-for="Stock" class="control-label"></label>
+                <input asp-for="Stock" class="form-control" />
+                <span asp-validation-for="Stock" class="text-danger"></span>
+            </div>
+            <div class="col-sm-4 m-3">
+                <label asp-for="Price" class="control-label">Price (£)</label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="col-sm-4 m-3 d-none" id="screenSizeInput">
+                <label asp-for="ScreenSize" class="control-label">Screen Size (Inches)</label>
+                <input asp-for="ScreenSize" class="form-control" />
+                <span asp-validation-for="ScreenSize" class="text-danger"></span>
+            </div>
+            <div class="col-sm-4 m-3 d-none" id="ramInput">
+                <label asp-for="RAM" class="control-label">RAM (GB)</label>
+                <input asp-for="RAM" class="form-control" />
+                <span asp-validation-for="RAM" class="text-danger"></span>
+            </div>
+            <div class="col-sm-4 m-3 d-none" id="storageInput">
+                <label asp-for="Storage" class="control-label">Storage (GB)</label>
+                <input asp-for="Storage" class="form-control" />
+                <span asp-validation-for="Storage" class="text-danger"></span>
+            </div>
+            <div class="col-sm-4 m-3 d-none" id="vramInput">
+                <label asp-for="VRAM" class="control-label">VRAM (GB)</label>
+                <input asp-for="VRAM" class="form-control" />
+                <span asp-validation-for="VRAM" class="text-danger"></span>
+            </div>
+            <div class="col-sm-4 m-3 d-none" id="cudaCoreInput">
+                <label asp-for="CudaCores" class="control-label">Cuda Cores</label>
+                <input asp-for="CudaCores" class="form-control" />
+                <span asp-validation-for="CudaCores" class="text-danger"></span>
+            </div>
+            <div class="col-sm-4 m-3">
+                <input id="createGraphicsCard" type="submit" value="Create" class="btn btn-success d-none"
+                       asp-controller="AddItem" asp-action="AddGraphicsCard"
+                       asp-route-ID="@Model.ID" asp-route-Name="Name" asp-route-Type="Type"
+                       asp-route-Stock="Stock" asp-route-Price="Price" asp-route-VRAM="VRAM" asp-route-CudaCores="CudaCores" />
+
+                <input id="createLaptop" type="submit" value="Create" class="btn btn-success d-none"
+                       asp-controller="AddItem" asp-action="AddLaptop"
+                       asp-route-ID="@Model.ID" asp-route-Name="Name" asp-route-Type="Type"
+                       asp-route-Stock="Stock" asp-route-Price="Price" asp-route-ScreenSize="ScreenSize"
+                       asp-route-RAM="RAM" asp-route-Storage="Storage" />
+            </div>
+        </form>
+    </div>
+</div>
+

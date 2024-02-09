@@ -1,0 +1,50 @@
+﻿@model StockManagement.MVC.Models.EditGraphicsCardViewModel
+
+@{
+    ViewData["Title"] = "EditGraphicsCardView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit Graphics Card</h1>
+
+<p>Edit "@Html.Raw(Model.Name)" With ID: @Html.Raw(Model.ID)</p>
+<hr />
+<div class="row">
+    <div>
+        <form asp-action="EditGraphicsCard">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="col-sm-4 m-3">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="col-sm-4 m-3">
+                <label asp-for="Stock" class="control-label"></label>
+                <input asp-for="Stock" class="form-control" />
+                <span asp-validation-for="Stock" class="text-danger"></span>
+            </div>
+            <div class="col-sm-4 m-3">
+                <label asp-for="Price" class="control-label">Price (£)</label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="col-sm-4 m-3">
+                <label asp-for="VRAM" class="control-label"> VRAM (GB)</label>
+                <input asp-for="VRAM" class="form-control" />
+                <span asp-validation-for="VRAM" class="text-danger"></span>
+            </div>
+            <div class="col-sm-4 m-3">
+                <label asp-for="CudaCores" class="control-label">Cuda Cores</label>
+                <input asp-for="CudaCores" class="form-control" />
+                <span asp-validation-for="CudaCores" class="text-danger"></span>
+            </div>
+            <div class="col-sm-4 m-3">
+                <input type="submit" value="Save Changes" class="btn btn-outline-primary" 
+                    asp-controller="EditGraphicsCard" asp-action="EditGraphicsCard" 
+                    asp-route-ID="@Model.ID" asp-route-Name="Name" asp-route-Type="@Model.Type" 
+                    asp-route-Stock="Stock" asp-route-Price="Price" asp-route-VRAM="VRAM" asp-route-CudaCores="CudaCores" />
+            </div>
+        </form>
+    </div>
+</div>
+
